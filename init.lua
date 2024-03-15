@@ -224,7 +224,41 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
-
+  'github/copilot.vim',
+  'lervag/vimtex',
+  { 'mfussenegger/nvim-dap',
+    config = function()
+      require("dap").adapters.lldb = {
+        type = 'executable',
+        command = '/usr/bin/lldb-vscode',
+        name = "lldb",
+      }
+      local lldb = {
+        name = "Launch",
+        type = "lldb",
+        request = "launch",
+        program = function()
+          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+        end,
+        cwd = '${workspaceFolder}',
+        stopOnEntry = false,
+      }
+      require('dap').configurations.cpp = { lldb }
+      vim.keymap.set('n', '<leader>dc', '<cmd>lua require"dap".continue()<CR>', { desc = '[C]ontinue' })
+      vim.keymap.set('n', '<leader>db', '<cmd>lua require"dap".toggle_breakpoint()<CR>', { desc = 'Toggle [B]reakpoint' })
+      vim.keymap.set('n', '<leader>dr', '<cmd>lua require"dap".repl.toggle()<CR>', { desc = 'Toggle [R]epl' })
+      vim.keymap.set('n', '<leader>do', '<cmd>lua require"dap".step_over()<CR>', { desc = 'Step [O]ver' })
+      vim.keymap.set('n', '<leader>di', '<cmd>lua require"dap".step_over()<CR>', { desc = 'Step [I]nto' })
+    end,
+  },
+  {
+    'NeogitOrg/neogit',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'sindrets/diffview.nvim',
+    },
+    config = true,
+  },
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
   -- keys can be used to configure plugin behavior/loading/etc.
@@ -536,10 +570,26 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        -- clangd = {},
+        clangd = {
+          capabilities = require("cmp_nvim_lsp").default_capabilities(),
+          cmd = {
+            "clangd",
+            "--offset-encoding=utf-16",
+          },
+        },
+        texlab = {
+          capabilities = require("cmp_nvim_lsp").default_capabilities(),
+          settings = {
+            texlab = {
+              build = {
+                onSave = true,
+              },
+            },
+          },
+        },
         -- gopls = {},
         -- pyright = {},
-        -- rust_analyzer = {},
+        rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -594,26 +644,6 @@ require('lazy').setup({
         },
       }
     end,
-  },
-
-  { -- Autoformat
-    'stevearc/conform.nvim',
-    opts = {
-      notify_on_error = false,
-      format_on_save = {
-        timeout_ms = 500,
-        lsp_fallback = true,
-      },
-      formatters_by_ft = {
-        lua = { 'stylua' },
-        -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        --
-        -- You can use a sub-list to tell conform to run *until* a formatter
-        -- is found.
-        -- javascript = { { "prettierd", "prettier" } },
-      },
-    },
   },
 
   { -- Autocompletion
@@ -832,6 +862,8 @@ require('lazy').setup({
     },
   },
 })
-
+vim.wo.relativenumber = true
+vim.keymap.set('n', '<leader>bn', '<cmd>bNext<CR>', { desc = '[B]uffer [N]ext' })
+vim.keymap.set('n', '<leader>bp', '<cmd>bprevious<CR>', { desc = '[B]uffer [P]revious' })
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
