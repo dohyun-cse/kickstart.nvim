@@ -883,5 +883,11 @@ vim.g.vimtex_view_skim_sync = 1
 vim.g.vimtex_skim_activate = 0
 vim.g.vimtex_quickfix_ignore_filters = { 'Underfull', 'Overfull', 'Tight', 'Package natbib' }
 vim.cmd [[colorscheme rose-pine]]
+vim.g.netrw_banner = 0 -- remove help banner
+vim.g.netrw_use_errorwindow = 0 -- popup window (2) doesn't work in nvim, use echoerr instead
+vim.g.netrw_sizestyle = 'h' -- human readable sizes like 5K or 3G instead of bytes
+vim.g.netrw_list_hide = vim.fn['netrw_gitignore#Hide']() .. [[.git/]] -- see `:help netrw-gitignore`
+
+vim.keymap.set('n', '<Leader>E', '<Cmd>20Lexplore<CR>')
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
