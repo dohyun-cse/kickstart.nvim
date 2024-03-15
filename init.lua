@@ -889,5 +889,6 @@ vim.g.netrw_sizestyle = 'h' -- human readable sizes like 5K or 3G instead of byt
 vim.g.netrw_list_hide = vim.fn['netrw_gitignore#Hide']() .. [[.git/]] -- see `:help netrw-gitignore`
 
 vim.keymap.set('n', '<Leader>E', '<Cmd>20Lexplore<CR>')
+vim.cmd([[let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro']])
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
