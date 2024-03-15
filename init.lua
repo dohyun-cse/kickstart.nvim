@@ -584,6 +584,12 @@ require('lazy').setup({
               build = {
                 onSave = true,
               },
+              diagnostics = {
+                ignoredPatterns = {
+                  "Package natbib Warning",
+                  "LaTeX Warning: Reference",
+                },
+              },
             },
           },
         },
@@ -805,8 +811,13 @@ require('lazy').setup({
       ensure_installed = { 'bash', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc' },
       -- Autoinstall languages that are not installed
       auto_install = true,
-      highlight = { enable = true },
+      highlight = {
+        enable = true,
+        disable = { "latex" },
+        additional_vim_regex_highlighting = { "latex", "markdown" },
+      },
       indent = { enable = true },
+
     },
     config = function(_, opts)
       -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
@@ -865,10 +876,10 @@ require('lazy').setup({
 vim.wo.relativenumber = true
 vim.keymap.set('n', '<leader>bn', '<cmd>bNext<CR>', { desc = '[B]uffer [N]ext' })
 vim.keymap.set('n', '<leader>bp', '<cmd>bprevious<CR>', { desc = '[B]uffer [P]revious' })
-vim.keymap.set('n', '<leader>gg', require('neogit').open(), { desc = '[G]it' })
+vim.keymap.set('n', '<leader>ge', require('neogit').open, { desc = '[G]it [E]xplorer' })
 vim.g.vimtex_view_method = 'skim'
 vim.g.vimtex_view_skim_sync = 1
 vim.g.vimtex_skim_activate = 0
-
+vim.g.vimtex_quickfix_ignore_filters = { 'Underfull', 'Overfull', 'Tight', 'Package natbib' }
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
