@@ -865,5 +865,10 @@ require('lazy').setup({
 vim.wo.relativenumber = true
 vim.keymap.set('n', '<leader>bn', '<cmd>bNext<CR>', { desc = '[B]uffer [N]ext' })
 vim.keymap.set('n', '<leader>bp', '<cmd>bprevious<CR>', { desc = '[B]uffer [P]revious' })
+vim.keymap.set('n', '<leader>gg', require('neogit').open(), { desc = '[G]it' })
+vim.g.vimtex_view_method = 'skim'
+vim.g.vimtex_view_skim_sync = 1
+vim.g.vimtex_skim_activate = 0
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
