@@ -225,6 +225,7 @@ require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
   'github/copilot.vim',
+  { "rose-pine/neovim", name = "rose-pine" },
   'lervag/vimtex',
   { 'mfussenegger/nvim-dap',
     config = function()
@@ -881,5 +882,6 @@ vim.g.vimtex_view_method = 'skim'
 vim.g.vimtex_view_skim_sync = 1
 vim.g.vimtex_skim_activate = 0
 vim.g.vimtex_quickfix_ignore_filters = { 'Underfull', 'Overfull', 'Tight', 'Package natbib' }
+vim.cmd [[colorscheme rose-pine]]
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
