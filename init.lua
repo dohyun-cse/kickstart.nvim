@@ -225,6 +225,11 @@ require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
   'github/copilot.vim',
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" }
+  },
   { "rose-pine/neovim", name = "rose-pine" },
   'lervag/vimtex',
   { 'mfussenegger/nvim-dap',
@@ -874,8 +879,6 @@ require('lazy').setup({
   },
 })
 vim.wo.relativenumber = true
-vim.keymap.set('n', '<leader>bn', '<cmd>bNext<CR>', { desc = '[B]uffer [N]ext' })
-vim.keymap.set('n', '<leader>bp', '<cmd>bprevious<CR>', { desc = '[B]uffer [P]revious' })
 vim.keymap.set('n', '<leader>ge', require('neogit').open, { desc = '[G]it [E]xplorer' })
 vim.g.vimtex_view_method = 'skim'
 vim.g.vimtex_view_skim_sync = 1
@@ -888,8 +891,47 @@ vim.g.netrw_banner = 0 -- remove help banner
 vim.g.netrw_use_errorwindow = 0 -- popup window (2) doesn't work in nvim, use echoerr instead
 vim.g.netrw_sizestyle = 'h' -- human readable sizes like 5K or 3G instead of bytes
 vim.g.netrw_list_hide = vim.fn['netrw_gitignore#Hide']() .. [[.git/]] -- see `:help netrw-gitignore`
-
 vim.keymap.set('n', '<Leader>E', '<Cmd>20Lexplore<CR>')
 vim.cmd([[let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro']])
+
+
+local harpoon = require("harpoon")
+
+-- REQUIRED
+harpoon:setup()
+-- REQUIRED
+
+vim.keymap.set("n", "<leader>a", function() harpoon:list():append() end)
+vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+
+vim.keymap.set("n", "<C-h>", function() harpoon:list():select(1) end)
+vim.keymap.set("n", "<C-t>", function() harpoon:list():select(2) end)
+vim.keymap.set("n", "<C-n>", function() harpoon:list():select(3) end)
+vim.keymap.set("n", "<C-s>", function() harpoon:list():select(4) end)
+
+-- Toggle previous & next buffers stored within Harpoon list
+vim.keymap.set("n", "<leader>bn", function() harpoon:list():prev() end)
+vim.keymap.set("n", "<leader>bp", function() harpoon:list():next() end)
+
+-- basic telescope configuration
+local conf = require("telescope.config").values
+local function toggle_telescope(harpoon_files)
+    local file_paths = {}
+    for _, item in ipairs(harpoon_files.items) do
+        table.insert(file_paths, item.value)
+    end
+
+    require("telescope.pickers").new({}, {
+        prompt_title = "Harpoon",
+        finder = require("telescope.finders").new_table({
+            results = file_paths,
+        }),
+        previewer = conf.file_previewer({}),
+        sorter = conf.generic_sorter({}),
+    }):find()
+end
+
+vim.keymap.set("n", "<C-e>", function() toggle_telescope(harpoon:list()) end,
+    { desc = "Open harpoon window" })
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
