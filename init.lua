@@ -582,14 +582,12 @@ require('lazy').setup({
           capabilities = require("cmp_nvim_lsp").default_capabilities(),
           settings = {
             texlab = {
-              build = {
-                onSave = true,
-              },
               diagnostics = {
                 ignoredPatterns = {
                   "LaTeX Font Warning: Font shape",
                   "Underfull",
                   "Overfull",
+                  "Package breakurl Warning:",
                 },
               },
             },
@@ -815,6 +813,8 @@ require('lazy').setup({
       auto_install = true,
       highlight = {
         enable = true,
+        disable = { "latex" },
+        additional_vim_regex_highlighting = { "latex", "markdown" },
       },
       indent = { enable = true },
 
