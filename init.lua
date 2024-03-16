@@ -587,8 +587,9 @@ require('lazy').setup({
               },
               diagnostics = {
                 ignoredPatterns = {
-                  "Package natbib Warning",
-                  "LaTeX Warning: Reference",
+                  "LaTeX Font Warning: Font shape",
+                  "Underfull",
+                  "Overfull",
                 },
               },
             },
@@ -814,8 +815,6 @@ require('lazy').setup({
       auto_install = true,
       highlight = {
         enable = true,
-        disable = { "latex" },
-        additional_vim_regex_highlighting = { "latex", "markdown" },
       },
       indent = { enable = true },
 
@@ -881,7 +880,9 @@ vim.keymap.set('n', '<leader>ge', require('neogit').open, { desc = '[G]it [E]xpl
 vim.g.vimtex_view_method = 'skim'
 vim.g.vimtex_view_skim_sync = 1
 vim.g.vimtex_skim_activate = 0
-vim.g.vimtex_quickfix_ignore_filters = { 'Underfull', 'Overfull', 'Tight', 'Package natbib' }
+vim.g.vimtex_quickfix_ignore_filters = { 'Underfull', 'Overfull', 'Tight', 'LaTeX Font Warning', 'Package breakurl Warning', }
+vim.g.vimtex_syntax_enabled = 0
+vim.g.vimtex_syntax_conceal_disable = 1
 vim.cmd [[colorscheme rose-pine]]
 vim.g.netrw_banner = 0 -- remove help banner
 vim.g.netrw_use_errorwindow = 0 -- popup window (2) doesn't work in nvim, use echoerr instead
