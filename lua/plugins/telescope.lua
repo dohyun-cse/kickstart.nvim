@@ -10,7 +10,7 @@ return {
           name = '[S]earch',
           f = { builtin.find_files, '[F]ile' },
           g = { builtin.live_grep, '[G]rep' },
-          b = { builtin.buffers, '[B]uffers' },
+          [" "] = { builtin.buffers, 'Buffers' },
           h = { builtin.search_history, '[H]istory' },
           k = { builtin.keymaps, '[K]eymaps' },
           l = { builtin.current_buffer_fuzzy_find, '[L]ocal fuzzy find' },
