@@ -7,7 +7,14 @@ return {
         null_ls.builtins.formatting.stylua,
       },
     }
-
-    vim.keymap.set('n', '<leader>gf', vim.lsp.buf.format, {})
+    require('which-key').register {
+      K = { vim.lsp.buf.hover, 'Show help' },
+      ['<leader>c'] = {
+        name = '[C]ode',
+        a = { vim.lsp.buf.code_action, '+[A]ction' },
+        f = { vim.lsp.buf.format, '+[F]ormat' },
+        r = { vim.lsp.buf.rename, '+[R]ename' },
+      },
+    }
   end,
 }
