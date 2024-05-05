@@ -16,6 +16,7 @@ return {
         f = { vim.lsp.buf.format, '+[F]ormat' },
         r = { vim.lsp.buf.rename, '+[R]ename' },
         d = { builtin.diagnostics, '+[D]iagnostic' },
+        g = { builtin.lsp_implementations, '+[G]oto implementation' },
       },
     }
   end,
