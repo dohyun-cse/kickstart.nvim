@@ -8,7 +8,6 @@ return {
           s = { '<cmd>tab Git<CR>', '[S]tatus' },
           d = { '<cmd>tab Gvdiffsplit<CR>', '[D]iff' },
           q = { '<cmd>diffoff!<CR>', '[Q]uit' },
-          c = { '<cmd>wq<CR>', '[C]ommit' },
         },
       }
     end,
