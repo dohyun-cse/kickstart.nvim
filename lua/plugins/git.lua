@@ -1,8 +1,7 @@
 return {
   {
     'tpope/vim-fugitive',
-    config = function()
-    end,
+    config = function() end,
   },
   {
     'lewis6991/gitsigns.nvim',
@@ -10,4 +9,5 @@ return {
       require('gitsigns').setup()
     end,
   },
+  { 'sindrets/diffview.nvim' },
 }
