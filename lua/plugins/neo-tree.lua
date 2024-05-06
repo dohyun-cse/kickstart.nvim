@@ -7,8 +7,5 @@ return {
     'MunifTanjim/nui.nvim',
   },
   config = function()
-    require('which-key').register {
-      ['<leader>e'] = { '<cmd>Neotree filesystem reveal right<CR>', '[E]xplorer' },
-    }
   end,
 }
