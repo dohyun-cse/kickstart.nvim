@@ -11,6 +11,7 @@ return {
   },
   {
     'sindrets/diffview.nvim',
+    dependencies = { 'tpope/vim-fugitive' },
     config = {
       enhanced_diff_hl = true,
       keymaps = {
