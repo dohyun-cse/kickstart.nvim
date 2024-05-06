@@ -15,7 +15,7 @@ vim.keymap.set('n', '<leader>sh', tbuiltin.search_history, { desc = '[S]earch [H
 vim.keymap.set('n', '<leader>sk', tbuiltin.keymaps, { desc = '[S]earch [K]eymaps' })
 vim.keymap.set('n', '<leader>sl', tbuiltin.current_buffer_fuzzy_find, { desc = '[L]ocal fuzzy find' })
 
--- lsp-related 
+-- lsp-related
 vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'Hover Document' })
 
 vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ction' })
@@ -37,6 +37,8 @@ local gitsigns = require 'gitsigns'
 vim.keymap.set('n', '<leader>gi', function()
   gitsigns.preview_hunk()
 end, { desc = '[G]it [I]n-place preview' })
+vim.keymap.set('n', '<leader>gca', '<cmd>Git commit --amend --no-edit<CR>',
+  { desc = '[G]it [C]ommit [A]mend with no-edit' })
 vim.keymap.set('v', '<leader>ga', function()
   gitsigns.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
 end, { desc = '[G]it [A]dd' })
