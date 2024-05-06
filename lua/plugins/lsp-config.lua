@@ -10,7 +10,7 @@ return {
     'williamboman/mason-lspconfig.nvim',
     config = function()
       require('mason-lspconfig').setup {
-        ensure_installed = { 'lua_ls', 'clangd', 'texlab' },
+        ensure_installed = { 'lua_ls', 'clangd', 'texlab', 'grammarly' },
       }
     end,
   },
@@ -130,7 +130,11 @@ return {
           },
         },
       }
+      lspconfig.grammarly.setup {
+        filetypes = { 'markdown', 'tex' },
+        init_options = { clientId = 'client_BaDkMgx4X19X9UxxYRCXZo' },
+      }
     end,
   },
-  { 'numToStr/Comment.nvim', opts = {} }
+  { 'numToStr/Comment.nvim', opts = {} },
 }
