@@ -5,6 +5,7 @@ return {
       require('mason').setup()
     end,
   },
+  { 'folke/todo-comments.nvim' },
 
   {
     'williamboman/mason-lspconfig.nvim',
