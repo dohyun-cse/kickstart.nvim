@@ -35,6 +35,7 @@ vim.keymap.set('n', '<leader>gP', '<cmd>Git push<CR>', { desc = '[G]it [P]ush' }
 vim.keymap.set('n', '<leader>gp', '<cmd>Git pull<CR>', { desc = '[G]it [P]ull' })
 vim.keymap.set('n', '<leader>gl', '<cmd>DiffviewFileHistory %<CR>', { desc = '[G]it [L]ogs (current buffer)' })
 vim.keymap.set('n', '<leader>gL', '<cmd>DiffviewFileHistory<CR>', { desc = '[G]it [L]ogs' })
+vim.cmd('autocmd User FugitiveCommit lua require("which-key").register({["cc"] = {"<cmd>wq", "[C]ommit"}})')
 
 -- signs
 local gitsigns = require 'gitsigns'
