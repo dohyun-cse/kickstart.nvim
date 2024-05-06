@@ -15,8 +15,6 @@ vim.keymap.set('n', '<leader>sh', tbuiltin.search_history, { desc = '[S]earch [H
 vim.keymap.set('n', '<leader>sk', tbuiltin.keymaps, { desc = '[S]earch [K]eymaps' })
 vim.keymap.set('n', '<leader>sl', tbuiltin.current_buffer_fuzzy_find, { desc = '[L]ocal fuzzy find' })
 vim.keymap.set('n', '<leader>sb', tbuiltin.git_branches, { desc = '[S]earch [B]ranches' })
-vim.keymap.set('n', '<leader>gl', tbuiltin.git_bcommits, { desc = '[G]it [L]ogs (current buffer)' })
-vim.keymap.set('n', '<leader>gL', tbuiltin.git_commits, { desc = '[G]it [L]ogs' })
 vim.keymap.set('n', '<leader>gs', tbuiltin.git_status, { desc = '[G]it [S]tatus' })
 
 -- lsp-related
@@ -36,6 +34,8 @@ vim.keymap.set('n', '<leader>gq', '<cmd>diffoff!<CR>', { desc = '[G]it [Q]uit di
 vim.keymap.set('n', '<leader>gf', '<cmd>Git fetch<CR>', { desc = '[G]it [F]etch' })
 vim.keymap.set('n', '<leader>gP', '<cmd>Git push<CR>', { desc = '[G]it [P]ush' })
 vim.keymap.set('n', '<leader>gp', '<cmd>Git pull<CR>', { desc = '[G]it [P]ull' })
+vim.keymap.set('n', '<leader>gl', '<cmd>DiffviewFileHistory %<CR>', { desc = '[G]it [L]ogs (current buffer)' })
+vim.keymap.set('n', '<leader>gL', '<cmd>DiffviewFileHistory<CR>', { desc = '[G]it [L]ogs' })
 
 -- signs
 local gitsigns = require 'gitsigns'
