@@ -5,6 +5,11 @@ return {
     require('dashboard').setup {
       theme = 'hyper',
       config = {
+        footer = {
+          ' ',
+          'Die gute Tat, das schöne Wort,',
+          ' ',
+        },
         week_header = {
           enable = true,
         },
