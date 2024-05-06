@@ -15,7 +15,6 @@ vim.keymap.set('n', '<leader>sh', tbuiltin.search_history, { desc = '[S]earch [H
 vim.keymap.set('n', '<leader>sk', tbuiltin.keymaps, { desc = '[S]earch [K]eymaps' })
 vim.keymap.set('n', '<leader>sl', tbuiltin.current_buffer_fuzzy_find, { desc = '[L]ocal fuzzy find' })
 vim.keymap.set('n', '<leader>sb', tbuiltin.git_branches, { desc = '[S]earch [B]ranches' })
-vim.keymap.set('n', '<leader>gs', tbuiltin.git_status, { desc = '[G]it [S]tatus' })
 
 -- lsp-related
 vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'Hover Document' })
@@ -28,7 +27,7 @@ vim.keymap.set('n', '<leader>cg', tbuiltin.lsp_implementations, { desc = '[G]oto
 
 -- git
 -- Fugitive
-vim.keymap.set('n', '<leader>gg', '<cmd>tab Git<CR>', { desc = '[G]it' })
+vim.keymap.set('n', '<leader>gs', '<cmd>DiffviewOpen<CR>', { desc = '[G]it' })
 vim.keymap.set('n', '<leader>gd', '<cmd>tab Gvdiffsplit<CR>', { desc = '[G]it [D]iff' })
 vim.keymap.set('n', '<leader>gq', '<cmd>diffoff!<CR>', { desc = '[G]it [Q]uit diffview' })
 vim.keymap.set('n', '<leader>gf', '<cmd>Git fetch<CR>', { desc = '[G]it [F]etch' })
