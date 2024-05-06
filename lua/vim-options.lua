@@ -3,7 +3,8 @@ vim.g.mapleader = ' '
 
 -- line number
 vim.opt.number = true
-vim.opt.relativenumber = true -- sync clipboard with OS
+vim.opt.relativenumber = true
+-- sync clipboard with OS
 vim.opt.clipboard = 'unnamedplus'
 
 vim.opt.ignorecase = true
