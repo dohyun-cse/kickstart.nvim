@@ -5,6 +5,31 @@ return {
       require('mason').setup()
     end,
   },
+  { 'wellle/targets.vim' },
+  {
+    'kylechui/nvim-surround',
+    version = '*', -- Use for stability; omit to use `main` branch for the latest features
+    event = 'VeryLazy',
+    config = function()
+      require('nvim-surround').setup {
+        keymaps = {
+          normal = '<leader>ss',
+          normal_cur = '<leader>sc',
+          normal_line = '<leader>sl',
+          visual = '<leader>ss',
+          visual_line = '<leader>sl',
+          delete = '<leader>sd',
+          change = '<leader>sr',
+          change_line = '<leader>sR',
+        },
+        surrounds = {
+          ['$'] = {
+            add = { '$', '$' },
+          },
+        },
+      }
+    end,
+  },
   {
     'folke/todo-comments.nvim',
     dependencies = { 'nvim-lua/plenary.nvim' },
