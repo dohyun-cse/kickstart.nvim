@@ -29,11 +29,14 @@ vim.keymap.set('n', '<leader>cg', tbuiltin.lsp_implementations, { desc = '[G]oto
 vim.keymap.set('n', '<leader>gs', '<cmd>tab Git<CR>', { desc = '[G]it [S]tatus' })
 vim.keymap.set('n', '<leader>gd', '<cmd>tab Gvdiffsplit<CR>', { desc = '[G]it [D]iff' })
 vim.keymap.set('n', '<leader>gq', '<cmd>diffoff!<CR>', { desc = '[G]it [Q]uit diffview' })
+vim.keymap.set('n', '<leader>gf', '<cmd>Git fetch<CR>', { desc = '[G]it [F]etch' })
+vim.keymap.set('n', '<leader>gP', '<cmd>Git push<CR>', { desc = '[G]it [P]ush' })
+vim.keymap.set('n', '<leader>gp', '<cmd>Git pull<CR>', { desc = '[G]it [P]ull' })
 -- signs
 local gitsigns = require 'gitsigns'
-vim.keymap.set('n', '<leader>gp', function()
+vim.keymap.set('n', '<leader>gi', function()
   gitsigns.preview_hunk()
-end, { desc = '[G]it [P]review' })
+end, { desc = '[G]it [I]n-place preview' })
 vim.keymap.set('v', '<leader>ga', function()
   gitsigns.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
 end, { desc = '[G]it [A]dd' })
