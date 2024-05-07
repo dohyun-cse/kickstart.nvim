@@ -5,6 +5,18 @@ return {
       require('mason').setup()
     end,
   },
+  {
+    'aznhe21/actions-preview.nvim',
+    config = function()
+      require('actions-preview').setup {
+        diff = {
+          algorithm = 'patience',
+          ignore_whitespace = true,
+        },
+        telescope = require('telescope.themes').get_dropdown { winblend = 10 },
+      }
+    end,
+  },
   { 'wellle/targets.vim' },
   {
     'kylechui/nvim-surround',
@@ -13,14 +25,14 @@ return {
     config = function()
       require('nvim-surround').setup {
         keymaps = {
-          normal = '<leader>ss',
-          normal_cur = '<leader>sc',
-          normal_line = '<leader>sl',
-          visual = '<leader>ss',
-          visual_line = '<leader>sl',
-          delete = '<leader>sd',
-          change = '<leader>sr',
-          change_line = '<leader>sR',
+          normal = '<leader>Ss',
+          normal_cur = '<leader>Sc',
+          normal_line = '<leader>Sl',
+          visual = '<leader>Ss',
+          visual_line = '<leader>Sl',
+          delete = '<leader>Sd',
+          change = '<leader>Sr',
+          change_line = '<leader>SR',
         },
         surrounds = {
           ['$'] = {

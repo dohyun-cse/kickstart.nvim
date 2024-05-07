@@ -19,7 +19,7 @@ vim.keymap.set('n', '<leader>sb', tbuiltin.git_branches, { desc = '[S]earch [B]r
 -- lsp-related
 vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'Hover Document' })
 
-vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ction' })
+vim.keymap.set({ 'v', 'n' }, '<leader>ca', require('actions-preview').code_actions)
 vim.keymap.set('n', '<leader>cf', vim.lsp.buf.format, { desc = '[C]ode [F]ormat' })
 vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename, { desc = '[R]ename' })
 vim.keymap.set('n', '<leader>cd', tbuiltin.diagnostics, { desc = '[D]iagnostic' })
@@ -41,8 +41,7 @@ local gitsigns = require 'gitsigns'
 vim.keymap.set('n', '<leader>gi', function()
   gitsigns.preview_hunk()
 end, { desc = '[G]it [I]n-place preview' })
-vim.keymap.set('n', '<leader>gca', '<cmd>Git commit --amend --no-edit<CR>',
-  { desc = '[G]it [C]ommit [A]mend with no-edit' })
+vim.keymap.set('n', '<leader>gca', '<cmd>Git commit --amend --no-edit<CR>', { desc = '[G]it [C]ommit [A]mend with no-edit' })
 vim.keymap.set('v', '<leader>ga', function()
   gitsigns.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
 end, { desc = '[G]it [A]dd' })
@@ -67,3 +66,53 @@ vim.keymap.set({ 'n', 'v' }, ']c', function()
     gitsigns.next_hunk()
   end
 end, { desc = 'Next Hunk' })
+
+local harpoon = require 'harpoon'
+harpoon:setup()
+
+-- basic telescope configuration
+local conf = require('telescope.config').values
+local function toggle_telescope(harpoon_files)
+  local file_paths = {}
+  for _, item in ipairs(harpoon_files.items) do
+    table.insert(file_paths, item.value)
+  end
+
+  require('telescope.pickers')
+    .new({}, {
+      prompt_title = 'Harpoon',
+      finder = require('telescope.finders').new_table {
+        results = file_paths,
+      },
+      previewer = conf.file_previewer {},
+      sorter = conf.generic_sorter {},
+    })
+    :find()
+end
+vim.keymap.set('n', '<leader>ha', function()
+  harpoon:list():add()
+end)
+vim.keymap.set('n', '<leader>hl', function()
+  toggle_telescope(harpoon:list())
+end, { desc = 'Open harpoon window' })
+
+vim.keymap.set('n', '<leader>hq', function()
+  harpoon:list():select(1)
+end)
+vim.keymap.set('n', '<leader>hw', function()
+  harpoon:list():select(2)
+end)
+vim.keymap.set('n', '<leader>he', function()
+  harpoon:list():select(3)
+end)
+vim.keymap.set('n', '<leader>hr', function()
+  harpoon:list():select(4)
+end)
+
+-- Toggle previous & next buffers stored within Harpoon list
+vim.keymap.set('n', '<leader>hN', function()
+  harpoon:list():prev()
+end)
+vim.keymap.set('n', '<leader>hn', function()
+  harpoon:list():next()
+end)
