@@ -17,6 +17,14 @@ return {
       }
     end,
   },
+  {
+    'ray-x/lsp_signature.nvim',
+    event = 'VeryLazy',
+    opts = { select_signature_key = '<C-k>' },
+    config = function(_, opts)
+      require('lsp_signature').setup(opts)
+    end,
+  },
   { 'wellle/targets.vim' },
   {
     'kylechui/nvim-surround',
@@ -158,11 +166,14 @@ return {
       local lspconfig = require 'lspconfig'
       lspconfig.lua_ls.setup {}
       lspconfig.clangd.setup {
-        capabilities = require('cmp_nvim_lsp').default_capabilities(),
+        capabilities = vim.lsp.protocol.make_client_capabilities(),
         cmd = { 'clangd', '--offset-encoding=utf-16' },
+        on_attach = function(client, bufnr)
+          require('lsp_signature').on_attach({ bind = true, handler_opts = { border = 'rounded' } }, bufnr)
+        end,
       }
       lspconfig.texlab.setup {
-        capabilities = require('cmp_nvim_lsp').default_capabilities(),
+        capabilities = vim.lsp.protocol.make_client_capabilities(),
         settings = {
           texlab = {
             diagnostics = {
@@ -179,6 +190,15 @@ return {
       lspconfig.grammarly.setup {
         filetypes = { 'markdown', 'tex' },
         init_options = { clientId = 'client_BaDkMgx4X19X9UxxYRCXZo' },
+        settings = {
+          grammarly = {
+            diagnotics = {
+              ignoredPatterns = {
+                'Add a space',
+              },
+            },
+          },
+        },
       }
     end,
   },

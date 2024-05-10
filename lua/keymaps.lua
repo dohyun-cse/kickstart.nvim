@@ -15,6 +15,7 @@ vim.keymap.set('n', '<leader>sh', tbuiltin.help_tags, { desc = '[S]earch [H]elp'
 vim.keymap.set('n', '<leader>sk', tbuiltin.keymaps, { desc = '[S]earch [K]eymaps' })
 vim.keymap.set('n', '<leader>sl', tbuiltin.current_buffer_fuzzy_find, { desc = '[L]ocal fuzzy find' })
 vim.keymap.set('n', '<leader>sb', tbuiltin.git_branches, { desc = '[S]earch [B]ranches' })
+vim.keymap.set('n', '<leader>sn', '<cmd>TodoTelescope<CR>', { desc = '[S]earch [N]otes, Todo, etc' })
 
 -- lsp-related
 vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'Hover Document' })
