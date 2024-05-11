@@ -5,6 +5,19 @@ return {
   -- },
   { 'rickhowe/diffchar.vim' },
   {
+    -- You need to install lazygit and git-delta
+    -- with your package manager, e.g., homebrew
+    -- After lazygit plugin is installed,
+    -- type `:LazyGitConfig<CR>`
+    -- and write the following in the config file.
+    -- ```
+    -- git:
+    -- paging:
+    --   colorArg: always
+    --   pager: delta --paging=never
+    -- ```
+    -- To make this pager as default, use the following command
+    -- `git config --global core.pager 'delta'`
     'kdheepak/lazygit.nvim',
     cmd = {
       'LazyGit',
