@@ -3,8 +3,15 @@ local tbuiltin = require 'telescope.builtin'
 local gitsigns = require 'gitsigns'
 local harpoon = require 'harpoon'
 local lazygit = require 'lazygit'
-local git_commit = function(str)
-  vim.cmd("!git commit -m " .. string.format("%q", vim.fn.input('Commit message', '')))
+function Git_commit()
+  vim.ui.input({prompt = 'Commit message: '}, function(message)
+    if (message == nil or message == '')
+    then
+      print("Empty commit message. Abort Commit.")
+    else
+      vim.cmd("!git commit -m " .. string.format("%q", message))
+    end
+  end)
 end
 
 --
@@ -16,7 +23,7 @@ require('which-key').register({
   ['g'] = {
     name = '[G]it',
     s = { '<cmd>LazyGit<CR>', '[S]tatus' },
-    c = { git_commit, '[C]ommit' },
+    c = { Git_commit, '[C]ommit' },
     f = { '<cmd>!git fetch<CR>', '[F]etch' },
     P = { '<cmd>!git push<CR>', '[P]ush' },
     p = { '<cmd>!git pull<CR>', '[P]ull' },
