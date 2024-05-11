@@ -1,119 +1,132 @@
 -- Category
-require('which-key').register {
-  ['<leader>g'] = { name = '[G]it' },
-  ['<leader>c'] = { name = '[C]ode' },
-  ['<leader>e'] = { '<cmd>Neotree filesystem reveal right<CR>', '[E]xplorer' },
-  ['<leader>s'] = { name = '[S]earch' },
-}
-
--- Search
 local tbuiltin = require 'telescope.builtin'
-vim.keymap.set('n', '<leader>sf', tbuiltin.find_files, { desc = '[S]earch [F]ile' })
-vim.keymap.set('n', '<leader>sg', tbuiltin.live_grep, { desc = '[G]rep' })
-vim.keymap.set('n', '<leader> ', tbuiltin.buffers, { desc = 'Buffers' })
-vim.keymap.set('n', '<leader>sh', tbuiltin.help_tags, { desc = '[S]earch [H]elp' })
-vim.keymap.set('n', '<leader>sk', tbuiltin.keymaps, { desc = '[S]earch [K]eymaps' })
-vim.keymap.set('n', '<leader>sl', tbuiltin.current_buffer_fuzzy_find, { desc = '[L]ocal fuzzy find' })
-vim.keymap.set('n', '<leader>sb', tbuiltin.git_branches, { desc = '[S]earch [B]ranches' })
-vim.keymap.set('n', '<leader>sn', '<cmd>TodoTelescope<CR>', { desc = '[S]earch [N]otes, Todo, etc' })
+local gitsigns = require 'gitsigns'
+local harpoon = require 'harpoon'
+
+--
+vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'Hover Document' })
+vim.keymap.set('n', '<leader>e', '<cmd>Neotree filesystem reveal right<CR>', { desc = '[E]xplorer' })
+vim.keymap.set('n', '<leader>z', '<cmd>ZenMode<CR>', { desc = '[Z]en mode' })
+
+require('which-key').register({
+  ['g'] = {
+    name = '[G]it',
+    s = { '<cmd>DiffviewOpen<CR>', '+[S]tatus' },
+    d = { '<cmd>tab Gvdiffsplit<CR>', '+[D]iff' },
+    q = { '<cmd>diffoff!<CR>', '+[Q]uit diffview' },
+    f = { '<cmd>Git fetch<CR>', '+[F]etch' },
+    P = { '<cmd>Git push<CR>', '+[P]ush' },
+    p = { '<cmd>Git pull<CR>', '+[P]ull' },
+    l = { '<cmd>DiffviewFileHistory %<CR>', '+[L]ogs (current buffer)' },
+    L = { '<cmd>DiffviewFileHistory<CR>', '+[L]ogs' },
+    i = {
+      function()
+        gitsigns.preview_hunk()
+      end,
+      '+[I]n-place preview',
+    },
+    ca = { '<cmd>Git commit --amend --no-edit<CR>', '+[C]ommit [A]mend with no-edit' },
+    a = { gitsigns.stage_hunk, '+[A]dd' },
+    u = { gitsigns.undo_stage_hunk, '+[U]nstage' },
+    r = { gitsigns.reset_hunk, '+[R]eset' },
+    h = { gitsigns.preview_hunk, '[G]it [H]unk Preview' },
+    b = {
+      name = '[B]uffer',
+      a = { gitsigns.stage_buffer, '+[A]dd' },
+      r = { gitsigns.stage_buffer, '+[R]eset' },
+    },
+  },
+
+  ['c'] = {
+    name = '[C]ode',
+    a = { require('actions-preview').code_actions, '[C]ode [A]ction Preview' },
+    f = { vim.lsp.buf.format, '[C]ode [F]ormat' },
+    r = { vim.lsp.buf.rename, '[R]ename' },
+    d = { tbuiltin.diagnostics, '[D]iagnostic' },
+    g = { tbuiltin.lsp_implementations, '[G]oto implementation' },
+  },
+
+  ['s'] = {
+    name = '[S]earch',
+    f = { tbuiltin.find_files, '[S]earch [F]ile' },
+    g = { tbuiltin.live_grep, '[G]rep' },
+    h = { tbuiltin.help_tags, '[S]earch [H]elp' },
+    k = { tbuiltin.keymaps, '[S]earch [K]eymaps' },
+    l = { tbuiltin.current_buffer_fuzzy_find, '[L]ocal fuzzy find' },
+    b = { tbuiltin.git_branches, '[S]earch [B]ranches' },
+    n = { '<cmd>TodoTelescope<CR>', '[S]earch [N]otes, Todo, etc' },
+  },
+
+  ['h'] = {
+    name = '[H]arpoon',
+    a = {
+      function()
+        harpoon:list():add()
+      end,
+      '[H]arpoon [A]dd',
+    },
+    l = {
+      function()
+        harpoon.ui:toggle_quick_menu(harpoon:list())
+      end,
+      '[H]arpoon [L]ist',
+    },
+    q = {
+      function()
+        harpoon:list():select(1)
+      end,
+      'Select First',
+    },
+    w = {
+      function()
+        harpoon:list():select(2)
+      end,
+      'Select Second',
+    },
+    e = {
+      function()
+        harpoon:list():select(3)
+      end,
+      'Select Third',
+    },
+    r = {
+      function()
+        harpoon:list():select(4)
+      end,
+      'Select Fourth',
+    },
+    p = {
+      function()
+        harpoon:list():prev()
+      end,
+      '[H]arpoon [P]revious',
+    },
+    n = {
+      function()
+        harpoon:list():next()
+      end,
+      '[H]arpoon [N]ext',
+    },
+  },
+
+  [' '] = { tbuiltin.buffers, 'Current Buffers' },
+}, { prefix = '<leader>' })
 
 -- lsp-related
-vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'Hover Document' })
-
-vim.keymap.set({ 'v', 'n' }, '<leader>ca', require('actions-preview').code_actions)
-vim.keymap.set('n', '<leader>cf', vim.lsp.buf.format, { desc = '[C]ode [F]ormat' })
-vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename, { desc = '[R]ename' })
-vim.keymap.set('n', '<leader>cd', tbuiltin.diagnostics, { desc = '[D]iagnostic' })
-vim.keymap.set('n', '<leader>cg', tbuiltin.lsp_implementations, { desc = '[G]oto implementation' })
-
--- git
--- Fugitive
-vim.keymap.set('n', '<leader>gs', '<cmd>DiffviewOpen<CR>', { desc = '[G]it' })
-vim.keymap.set('n', '<leader>gd', '<cmd>tab Gvdiffsplit<CR>', { desc = '[G]it [D]iff' })
-vim.keymap.set('n', '<leader>gq', '<cmd>diffoff!<CR>', { desc = '[G]it [Q]uit diffview' })
-vim.keymap.set('n', '<leader>gf', '<cmd>Git fetch<CR>', { desc = '[G]it [F]etch' })
-vim.keymap.set('n', '<leader>gP', '<cmd>Git push<CR>', { desc = '[G]it [P]ush' })
-vim.keymap.set('n', '<leader>gp', '<cmd>Git pull<CR>', { desc = '[G]it [P]ull' })
-vim.keymap.set('n', '<leader>gl', '<cmd>DiffviewFileHistory %<CR>', { desc = '[G]it [L]ogs (current buffer)' })
-vim.keymap.set('n', '<leader>gL', '<cmd>DiffviewFileHistory<CR>', { desc = '[G]it [L]ogs' })
-
--- signs
-local gitsigns = require 'gitsigns'
-vim.keymap.set('n', '<leader>gi', function()
-  gitsigns.preview_hunk()
-end, { desc = '[G]it [I]n-place preview' })
-vim.keymap.set('n', '<leader>gca', '<cmd>Git commit --amend --no-edit<CR>', { desc = '[G]it [C]ommit [A]mend with no-edit' })
-vim.keymap.set('v', '<leader>ga', function()
-  gitsigns.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
-end, { desc = '[G]it [A]dd' })
-vim.keymap.set('v', '<leader>gu', function()
-  gitsigns.undo_stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
-end, { desc = '[G]it [U]nstage' })
-vim.keymap.set('v', '<leader>gx', function()
-  gitsigns.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
-end, { desc = '[G]it Discard' })
-
-vim.keymap.set({ 'n', 'v' }, '[c', function()
-  if vim.wo.diff then
-    vim.cmd.normal { '[c', bang = true }
-  else
-    gitsigns.prev_hunk()
-  end
-end, { desc = 'Previous Hunk' })
-vim.keymap.set({ 'n', 'v' }, ']c', function()
-  if vim.wo.diff then
-    vim.cmd.normal { ']c', bang = true }
-  else
-    gitsigns.next_hunk()
-  end
-end, { desc = 'Next Hunk' })
-
-local harpoon = require 'harpoon'
-harpoon:setup()
-
--- basic telescope configuration
-local conf = require('telescope.config').values
-local function toggle_telescope(harpoon_files)
-  local file_paths = {}
-  for _, item in ipairs(harpoon_files.items) do
-    table.insert(file_paths, item.value)
-  end
-
-  require('telescope.pickers')
-    .new({}, {
-      prompt_title = 'Harpoon',
-      finder = require('telescope.finders').new_table {
-        results = file_paths,
-      },
-      previewer = conf.file_previewer {},
-      sorter = conf.generic_sorter {},
-    })
-    :find()
-end
-vim.keymap.set('n', '<leader>ha', function()
-  harpoon:list():add()
-end)
-vim.keymap.set('n', '<leader>hl', function()
-  toggle_telescope(harpoon:list())
-end, { desc = 'Open harpoon window' })
-
-vim.keymap.set('n', '<leader>hq', function()
-  harpoon:list():select(1)
-end)
-vim.keymap.set('n', '<leader>hw', function()
-  harpoon:list():select(2)
-end)
-vim.keymap.set('n', '<leader>he', function()
-  harpoon:list():select(3)
-end)
-vim.keymap.set('n', '<leader>hr', function()
-  harpoon:list():select(4)
-end)
-
--- Toggle previous & next buffers stored within Harpoon list
-vim.keymap.set('n', '<leader>hN', function()
-  harpoon:list():prev()
-end)
-vim.keymap.set('n', '<leader>hn', function()
-  harpoon:list():next()
-end)
+require('which-key').register({
+  g = {
+    name = '[G]it',
+    a = {
+      function()
+        gitsigns.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
+      end,
+      '[G]it [S]tage Selection',
+    },
+    r = {
+      function()
+        gitsigns.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
+      end,
+      '[G]it [R]eset Selection',
+    },
+  },
+}, { mode = 'v', prefix = '<leader>' })
