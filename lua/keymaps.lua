@@ -3,7 +3,7 @@ local tbuiltin = require 'telescope.builtin'
 local gitsigns = require 'gitsigns'
 local harpoon = require 'harpoon'
 local lazygit = require 'lazygit'
-function git_commit(str)
+local git_commit = function(str)
   vim.cmd("!git commit -m " .. string.format("%q", str))
 end
 

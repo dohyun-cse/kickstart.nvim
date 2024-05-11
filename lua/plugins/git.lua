@@ -26,6 +26,15 @@ return {
     config = function()
       require('gitsigns').setup {
         current_line_blame = true,
+        on_attach = function(bufnr)
+          vim.keymap.set('n', '<esc>', function()
+            for _, id in ipairs(vim.api.nvim_list_wins()) do
+              if vim.api.nvim_win_get_config(id).relative ~= '' then
+                vim.api.nvim_win_close(id, false)
+              end
+            end
+          end, { buffer = bufnr })
+        end,
       }
     end,
   },
