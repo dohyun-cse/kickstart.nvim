@@ -4,12 +4,11 @@ local gitsigns = require 'gitsigns'
 local harpoon = require 'harpoon'
 local lazygit = require 'lazygit'
 function Git_commit()
-  vim.ui.input({prompt = 'Commit message: '}, function(message)
-    if (message == nil or message == '')
-    then
-      print("Empty commit message. Abort Commit.")
+  vim.ui.input({ prompt = 'Commit message: ' }, function(message)
+    if message == nil or message == '' then
+      print 'Empty commit message. Abort Commit.'
     else
-      vim.cmd("!git commit -m " .. string.format("%q", message))
+      vim.cmd('!git commit -m ' .. string.format('%q', message))
     end
   end)
 end
@@ -55,6 +54,12 @@ require('which-key').register({
     l = { tbuiltin.current_buffer_fuzzy_find, '[L]ocal Grep' },
     b = { tbuiltin.git_branches, '[B]ranches' },
     n = { '<cmd>TodoTelescope<CR>', '[N]otes, Todo, etc' },
+    s = {
+      name = '[S]ymbols',
+      w = { tbuiltin.lsp_workspace_symbols, '[W]orkspace' },
+      b = { tbuiltin.lsp_document_symbols, '[B]uffer' },
+      d = { tbuiltin.lsp_dynamic_workspace_symbols, '[D]ynamic Workspace' },
+    },
   },
 
   ['h'] = {
