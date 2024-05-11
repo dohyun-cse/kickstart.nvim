@@ -26,6 +26,7 @@ require('which-key').register({
       '+[I]n-place preview',
     },
     ca = { '<cmd>Git commit --amend --no-edit<CR>', '+[C]ommit [A]mend with no-edit' },
+    C = { '<cmd>Git commit<CR>', '+[C]ommit' },
     a = { gitsigns.stage_hunk, '+[A]dd' },
     u = { gitsigns.undo_stage_hunk, '+[U]nstage' },
     r = { gitsigns.reset_hunk, '+[R]eset' },

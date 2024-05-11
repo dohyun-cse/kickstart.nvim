@@ -1,6 +1,7 @@
 return {
   'folke/zen-mode.nvim',
   opts = {
+    width = { 160 },
     plugins = {
       gitsigns = { enabled = true },
       tmux = { enabled = true },

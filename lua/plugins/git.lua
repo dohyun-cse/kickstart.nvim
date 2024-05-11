@@ -18,8 +18,8 @@ return {
       enhanced_diff_hl = true,
       keymaps = {
         file_panel = {
-          { 'n', '<C-c>', '<cmd>DiffviewClose<CR><cmd>Git commit<CR>', { silent = true } },
-          { 'n', 'q', '<cmd>DiffviewClose<CR>', { silent = true } },
+          { 'n', '<C-c>', '<cmd>DiffviewClose<CR><cmd>Git commit<CR>', { desc = 'Commit', silent = true } },
+          { 'n', 'q', '<cmd>DiffviewClose<CR>', { desc = 'Close Diffview', silent = true } },
         },
       },
     },
