@@ -2,6 +2,7 @@
 local tbuiltin = require 'telescope.builtin'
 local gitsigns = require 'gitsigns'
 local harpoon = require 'harpoon'
+local lazygit = require 'lazygit'
 
 --
 vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'Hover Document' })
@@ -11,22 +12,18 @@ vim.keymap.set('n', '<leader>z', '<cmd>ZenMode<CR>', { desc = '[Z]en mode' })
 require('which-key').register({
   ['g'] = {
     name = '[G]it',
-    s = { '<cmd>DiffviewOpen<CR>', '+[S]tatus' },
-    d = { '<cmd>tab Gvdiffsplit<CR>', '+[D]iff' },
-    q = { '<cmd>diffoff!<CR>', '+[Q]uit diffview' },
-    f = { '<cmd>Git fetch<CR>', '+[F]etch' },
-    P = { '<cmd>Git push<CR>', '+[P]ush' },
-    p = { '<cmd>Git pull<CR>', '+[P]ull' },
-    l = { '<cmd>DiffviewFileHistory %<CR>', '+[L]ogs (current buffer)' },
-    L = { '<cmd>DiffviewFileHistory<CR>', '+[L]ogs' },
+    s = { '<cmd>LazyGit<CR>', '+[S]tatus' },
+    f = { '<cmd>!git fetch<CR>', '+[F]etch' },
+    P = { '<cmd>!git push<CR>', '+[P]ush' },
+    p = { '<cmd>!git pull<CR>', '+[P]ull' },
+    l = { '<cmd>LazyGitFilterCurrentFile<CR>', '+[L]ogs (current buffer)' },
+    L = { '<cmd>LazyGitFilter<CR>', '+[L]ogs' },
     i = {
       function()
         gitsigns.preview_hunk()
       end,
       '+[I]n-place preview',
     },
-    ca = { '<cmd>Git commit --amend --no-edit<CR>', '+[C]ommit [A]mend with no-edit' },
-    C = { '<cmd>Git commit<CR>', '+[C]ommit' },
     a = { gitsigns.stage_hunk, '+[A]dd' },
     u = { gitsigns.undo_stage_hunk, '+[U]nstage' },
     r = { gitsigns.reset_hunk, '+[R]eset' },
