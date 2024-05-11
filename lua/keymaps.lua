@@ -4,7 +4,7 @@ local gitsigns = require 'gitsigns'
 local harpoon = require 'harpoon'
 local lazygit = require 'lazygit'
 local git_commit = function(str)
-  vim.cmd("!git commit -m " .. string.format("%q", str))
+  vim.cmd("!git commit -m " .. string.format("%q", vim.fn.input('Commit message', '')))
 end
 
 --
