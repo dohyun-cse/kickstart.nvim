@@ -3,6 +3,9 @@ local tbuiltin = require 'telescope.builtin'
 local gitsigns = require 'gitsigns'
 local harpoon = require 'harpoon'
 local lazygit = require 'lazygit'
+function git_commit(str)
+  vim.cmd("!git commit -m " .. string.format("%q", str))
+end
 
 --
 vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'Hover Document' })
@@ -12,26 +15,21 @@ vim.keymap.set('n', '<leader>z', '<cmd>ZenMode<CR>', { desc = '[Z]en mode' })
 require('which-key').register({
   ['g'] = {
     name = '[G]it',
-    s = { '<cmd>LazyGit<CR>', '+[S]tatus' },
-    f = { '<cmd>!git fetch<CR>', '+[F]etch' },
-    P = { '<cmd>!git push<CR>', '+[P]ush' },
-    p = { '<cmd>!git pull<CR>', '+[P]ull' },
-    l = { '<cmd>LazyGitFilterCurrentFile<CR>', '+[L]ogs (current buffer)' },
-    L = { '<cmd>LazyGitFilter<CR>', '+[L]ogs' },
-    i = {
-      function()
-        gitsigns.preview_hunk()
-      end,
-      '+[I]n-place preview',
-    },
-    a = { gitsigns.stage_hunk, '+[A]dd' },
-    u = { gitsigns.undo_stage_hunk, '+[U]nstage' },
-    r = { gitsigns.reset_hunk, '+[R]eset' },
-    h = { gitsigns.preview_hunk, '[G]it [H]unk Preview' },
+    s = { '<cmd>LazyGit<CR>', '[S]tatus' },
+    c = { git_commit, '[C]ommit' },
+    f = { '<cmd>!git fetch<CR>', '[F]etch' },
+    P = { '<cmd>!git push<CR>', '[P]ush' },
+    p = { '<cmd>!git pull<CR>', '[P]ull' },
+    l = { '<cmd>LazyGitFilterCurrentFile<CR>', '[L]ogs (current buffer)' },
+    L = { '<cmd>LazyGitFilter<CR>', '[L]ogs' },
+    a = { gitsigns.stage_hunk, '[A]dd' },
+    u = { gitsigns.undo_stage_hunk, '[U]nstage' },
+    r = { gitsigns.reset_hunk, '[R]eset' },
+    h = { gitsigns.preview_hunk, '[H]unk Preview' },
     b = {
       name = '[B]uffer',
-      a = { gitsigns.stage_buffer, '+[A]dd' },
-      r = { gitsigns.stage_buffer, '+[R]eset' },
+      a = { gitsigns.stage_buffer, '[A]dd' },
+      r = { gitsigns.stage_buffer, '[R]eset' },
     },
   },
 
@@ -46,13 +44,13 @@ require('which-key').register({
 
   ['s'] = {
     name = '[S]earch',
-    f = { tbuiltin.find_files, '[S]earch [F]ile' },
+    f = { tbuiltin.find_files, '[F]ile' },
     g = { tbuiltin.live_grep, '[G]rep' },
-    h = { tbuiltin.help_tags, '[S]earch [H]elp' },
-    k = { tbuiltin.keymaps, '[S]earch [K]eymaps' },
-    l = { tbuiltin.current_buffer_fuzzy_find, '[L]ocal fuzzy find' },
-    b = { tbuiltin.git_branches, '[S]earch [B]ranches' },
-    n = { '<cmd>TodoTelescope<CR>', '[S]earch [N]otes, Todo, etc' },
+    h = { tbuiltin.help_tags, '[H]elp' },
+    k = { tbuiltin.keymaps, '[K]eymaps' },
+    l = { tbuiltin.current_buffer_fuzzy_find, '[L]ocal Grep' },
+    b = { tbuiltin.git_branches, '[B]ranches' },
+    n = { '<cmd>TodoTelescope<CR>', '[N]otes, Todo, etc' },
   },
 
   ['h'] = {

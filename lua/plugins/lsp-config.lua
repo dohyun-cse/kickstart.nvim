@@ -42,11 +42,6 @@ return {
           change = '<leader>Sr',
           change_line = '<leader>SR',
         },
-        surrounds = {
-          ['$'] = {
-            add = { '$', '$' },
-          },
-        },
       }
     end,
   },

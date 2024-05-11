@@ -3,6 +3,7 @@ return {
   --   'tpope/vim-fugitive',
   --   config = function() end,
   -- },
+  { 'rickhowe/diffchar.vim' },
   {
     'kdheepak/lazygit.nvim',
     cmd = {
@@ -14,6 +15,7 @@ return {
     },
     -- optional for floating window border decoration
     dependencies = {
+      'rickhowe/diffchar.vim',
       'nvim-lua/plenary.nvim',
     },
     -- setting the keybinding for LazyGit with 'keys' is recommended in
