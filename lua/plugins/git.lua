@@ -1,9 +1,5 @@
 return {
   {
-    'tpope/vim-fugitive',
-    config = function() end,
-  },
-  {
     -- You need to install lazygit and git-delta
     -- with your package manager, e.g., homebrew
     -- After lazygit plugin is installed,
@@ -18,7 +14,6 @@ return {
     -- To make this pager as default, use the following command
     -- `git config --global core.pager 'delta'`
     'kdheepak/lazygit.nvim',
-    event = 'VeryLazy',
     cmd = {
       'LazyGit',
       'LazyGitConfig',
@@ -38,18 +33,19 @@ return {
     config = function()
       require('gitsigns').setup {
         current_line_blame = true,
-        on_attach = function(bufnr)
-          vim.keymap.set('n', '<esc>', function()
-            for _, id in ipairs(vim.api.nvim_list_wins()) do
-              if vim.api.nvim_win_get_config(id).relative ~= '' then
-                vim.api.nvim_win_close(id, false)
-              end
-            end
-          end, { buffer = bufnr })
-        end,
+        -- on_attach = function(bufnr)
+        --   vim.keymap.set('n', '<esc>', function()
+        --     for _, id in ipairs(vim.api.nvim_list_wins()) do
+        --       if vim.api.nvim_win_get_config(id).relative ~= '' then
+        --         vim.api.nvim_win_close(id, false)
+        --       end
+        --     end
+        --   end, { buffer = bufnr })
+        -- end,
       }
     end,
   },
+  { 'rickhowe/diffchar.vim' }
   -- {
   --   'sindrets/diffview.nvim',
   --   dependencies = { 'tpope/vim-fugitive' },

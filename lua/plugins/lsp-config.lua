@@ -1,14 +1,12 @@
 return {
   {
     'williamboman/mason.nvim',
-    event = 'VeryLazy',
     config = function()
       require('mason').setup()
     end,
   },
   {
     'aznhe21/actions-preview.nvim',
-    event = 'VeryLazy',
     config = function()
       require('actions-preview').setup {
         diff = {
@@ -21,7 +19,6 @@ return {
   },
   {
     'ray-x/lsp_signature.nvim',
-    event = 'VeryLazy',
     opts = { select_signature_key = '<C-k>' },
     config = function(_, opts)
       require('lsp_signature').setup(opts)

@@ -13,7 +13,7 @@ return {
       'LaTeX Font Warning',
       'Package breakurl Warning',
     }
-    -- vim.g.vimtex_syntax_enabled = 0
-    vim.g.vimtex_syntax_conceal_disable = 0
+    vim.g.vimtex_syntax_enabled = 0
+    vim.g.vimtex_syntax_conceal_disable = 1
   end,
 }

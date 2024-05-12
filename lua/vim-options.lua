@@ -32,4 +32,4 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 --vim.opt.incco
 vim.opt.inccommand = 'split'
 vim.opt.hlsearch = true
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Disable Search Highlight' })
+vim.keymap.set('n', '<esc>', '<cmd>nohl<CR>', { desc = 'Disable Search Highlight' })
