@@ -1,9 +1,8 @@
 return {
-  -- {
-  --   'tpope/vim-fugitive',
-  --   config = function() end,
-  -- },
-  { 'rickhowe/diffchar.vim' },
+  {
+    'tpope/vim-fugitive',
+    config = function() end,
+  },
   {
     -- You need to install lazygit and git-delta
     -- with your package manager, e.g., homebrew
@@ -19,6 +18,7 @@ return {
     -- To make this pager as default, use the following command
     -- `git config --global core.pager 'delta'`
     'kdheepak/lazygit.nvim',
+    event = 'VeryLazy',
     cmd = {
       'LazyGit',
       'LazyGitConfig',
@@ -28,7 +28,6 @@ return {
     },
     -- optional for floating window border decoration
     dependencies = {
-      'rickhowe/diffchar.vim',
       'nvim-lua/plenary.nvim',
     },
     -- setting the keybinding for LazyGit with 'keys' is recommended in

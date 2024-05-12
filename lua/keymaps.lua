@@ -2,7 +2,7 @@
 local tbuiltin = require 'telescope.builtin'
 local gitsigns = require 'gitsigns'
 local harpoon = require 'harpoon'
-local lazygit = require 'lazygit'
+
 function Git_commit()
   vim.ui.input({ prompt = 'Commit message: ' }, function(message)
     if message == nil or message == '' then
@@ -19,119 +19,84 @@ vim.keymap.set('n', '<leader>e', '<cmd>Neotree filesystem reveal right<CR>', { d
 vim.keymap.set('n', '<leader>z', '<cmd>ZenMode<CR>', { desc = '[Z]en mode' })
 
 require('which-key').register({
-  ['g'] = {
-    name = '[G]it',
-    s = { '<cmd>LazyGit<CR>', '[S]tatus' },
-    c = { Git_commit, '[C]ommit' },
-    l = { '<cmd>LazyGitFilterCurrentFile<CR>', '[L]ogs (current buffer)' },
-    L = { '<cmd>LazyGitFilter<CR>', '[L]ogs' },
-    a = { gitsigns.stage_hunk, '[A]dd' },
-    u = { gitsigns.undo_stage_hunk, '[U]nstage' },
-    r = { gitsigns.reset_hunk, '[R]eset' },
-    h = { gitsigns.preview_hunk, '[H]unk Preview' },
-    b = {
-      name = '[B]uffer',
-      a = { gitsigns.stage_buffer, '[A]dd' },
-      r = { gitsigns.stage_buffer, '[R]eset' },
-    },
-  },
-
-  ['c'] = {
-    name = '[C]ode',
-    a = { require('actions-preview').code_actions, '[C]ode [A]ction Preview' },
-    f = { vim.lsp.buf.format, '[C]ode [F]ormat' },
-    r = { vim.lsp.buf.rename, '[R]ename' },
-    d = { tbuiltin.diagnostics, '[D]iagnostic' },
-    g = { tbuiltin.lsp_implementations, '[G]oto implementation' },
-  },
-
-  ['s'] = {
-    name = '[S]earch',
-    f = { tbuiltin.find_files, '[F]ile' },
-    g = { tbuiltin.live_grep, '[G]rep' },
-    h = { tbuiltin.help_tags, '[H]elp' },
-    k = { tbuiltin.keymaps, '[K]eymaps' },
-    l = { tbuiltin.current_buffer_fuzzy_find, '[L]ocal Grep' },
-    b = { tbuiltin.git_branches, '[B]ranches' },
-    n = { '<cmd>TodoTelescope<CR>', '[N]otes, Todo, etc' },
-    s = {
-      name = '[S]ymbols',
-      w = { tbuiltin.lsp_workspace_symbols, '[W]orkspace' },
-      b = { tbuiltin.lsp_document_symbols, '[B]uffer' },
-      d = { tbuiltin.lsp_dynamic_workspace_symbols, '[D]ynamic Workspace' },
-    },
-  },
-
-  ['h'] = {
-    name = '[H]arpoon',
-    a = {
-      function()
-        harpoon:list():add()
-      end,
-      '[H]arpoon [A]dd',
-    },
-    l = {
-      function()
-        harpoon.ui:toggle_quick_menu(harpoon:list())
-      end,
-      '[H]arpoon [L]ist',
-    },
-    q = {
-      function()
-        harpoon:list():select(1)
-      end,
-      'Select First',
-    },
-    w = {
-      function()
-        harpoon:list():select(2)
-      end,
-      'Select Second',
-    },
-    e = {
-      function()
-        harpoon:list():select(3)
-      end,
-      'Select Third',
-    },
-    r = {
-      function()
-        harpoon:list():select(4)
-      end,
-      'Select Fourth',
-    },
-    p = {
-      function()
-        harpoon:list():prev()
-      end,
-      '[H]arpoon [P]revious',
-    },
-    n = {
-      function()
-        harpoon:list():next()
-      end,
-      '[H]arpoon [N]ext',
-    },
-  },
-
-  [' '] = { tbuiltin.buffers, 'Current Buffers' },
+  ['g'] = { name = '[G]it', b = { name = '[B]uffer' } },
+  ['c'] = { name = '[C]ode' },
+  ['s'] = { name = '[S]earch', s = { name = '[S]ymbols' } },
+  ['h'] = { name = '[H]arpoon' },
 }, { prefix = '<leader>' })
+require('which-key').register({ g = { name = '[G]it' } }, { mode = 'v', prefix = '<leader>' })
 
--- lsp-related
-require('which-key').register({
-  g = {
-    name = '[G]it',
-    a = {
-      function()
-        gitsigns.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
-      end,
-      '[G]it [S]tage Selection',
-    },
-    r = {
-      function()
-        gitsigns.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
-      end,
-      '[G]it [R]eset Selection',
-    },
-  },
-}, { mode = 'v', prefix = '<leader>' })
+-- keymap set
+local opt = { silent = true }
+local prefix = ''
+
+-- git
+prefix = '<leader>g'
+vim.keymap.set('n', prefix .. 's', '<cmd>LazyGit<CR>', { desc = '[S]tatus' }, opt)
+vim.keymap.set('n', prefix .. 'c', Git_commit, { desc = '[C]ommit' }, opt)
+vim.keymap.set('n', prefix .. 'l', '<cmd>LazyGitFilterCurrentFile<CR>', { desc = '[L]ogs (current buffer)' }, opt)
+vim.keymap.set('n', prefix .. 'L', '<cmd>LazyGitFilter<CR>', { desc = '[L]ogs' }, opt)
+vim.keymap.set('n', prefix .. 'a', gitsigns.stage_hunk, { desc = '[A]dd' }, opt)
+vim.keymap.set('n', prefix .. 'u', gitsigns.undo_stage_hunk, { desc = '[U]nstage' }, opt)
+vim.keymap.set('n', prefix .. 'r', gitsigns.reset_hunk, { desc = '[R]eset' }, opt)
+vim.keymap.set('n', prefix .. 'h', gitsigns.preview_hunk, { desc = '[H]unk Preview' }, opt)
+vim.keymap.set('v', 'a', function()
+  gitsigns.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
+end, { desc = '[G]it [S]tage Selection' })
+vim.keymap.set('v', 'r', function()
+  gitsigns.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
+end, { desc = '[G]it [R]eset Selection' })
+
+-- git buffer
+prefix = '<leader>gb'
+vim.keymap.set('n', prefix .. 'a', gitsigns.stage_buffer, { desc = '[A]dd' }, opt)
+vim.keymap.set('n', prefix .. 'r', gitsigns.stage_buffer, { desc = '[R]eset' }, opt)
+
+-- code
+prefix = '<leader>c'
+vim.keymap.set('n', prefix .. 'a', require('actions-preview').code_actions, { desc = '[C]ode [A]ction Preview' }, opt)
+vim.keymap.set('n', prefix .. 'f', vim.lsp.buf.format, { desc = '[C]ode [F]ormat' }, opt)
+vim.keymap.set('n', prefix .. 'r', vim.lsp.buf.rename, { desc = '[R]ename' }, opt)
+vim.keymap.set('n', prefix .. 'd', tbuiltin.diagnostics, { desc = '[D]iagnostic' }, opt)
+vim.keymap.set('n', prefix .. 'g', tbuiltin.lsp_implementations, { desc = '[G]oto implementation' }, opt)
+
+-- search
+prefix = '<leader>s'
+vim.keymap.set('n', prefix .. ' ', tbuiltin.buffers, { desc = 'Current Buffers' }, opt)
+vim.keymap.set('n', prefix .. 'f', tbuiltin.find_files, { desc = '[F]ile' }, opt)
+vim.keymap.set('n', prefix .. 'g', tbuiltin.live_grep, { desc = '[G]rep' }, opt)
+vim.keymap.set('n', prefix .. 'h', tbuiltin.help_tags, { desc = '[H]elp' }, opt)
+vim.keymap.set('n', prefix .. 'k', tbuiltin.keymaps, { desc = '[K]eymaps' }, opt)
+vim.keymap.set('n', prefix .. 'l', tbuiltin.current_buffer_fuzzy_find, { desc = '[L]ocal Grep' }, opt)
+vim.keymap.set('n', prefix .. 'b', tbuiltin.git_branches, { desc = '[B]ranches' }, opt)
+vim.keymap.set('n', prefix .. 'n', '<cmd>TodoTelescope<CR>', { desc = '[N]otes, Todo, etc' }, opt)
+vim.keymap.set('n', prefix .. 'w', tbuiltin.lsp_workspace_symbols, { desc = '[W]orkspace' }, opt)
+vim.keymap.set('n', prefix .. 'b', tbuiltin.lsp_document_symbols, { desc = '[B]uffer' }, opt)
+vim.keymap.set('n', prefix .. 'd', tbuiltin.lsp_dynamic_workspace_symbols, { desc = '[D]ynamic Workspace' }, opt)
+
+-- harpoon
+prefix = '<leader>h'
+vim.keymap.set('n', prefix .. 'a', function()
+  harpoon:list():add()
+end, { desc = '[H]arpoon [A]dd' }, opt)
+vim.keymap.set('n', prefix .. 'l', function()
+  harpoon.ui:toggle_quick_menu(harpoon:list())
+end, { desc = '[H]arpoon [L]ist' }, opt)
+vim.keymap.set('n', prefix .. 'q', function()
+  harpoon:list():select(1)
+end, { desc = 'Select First' }, opt)
+vim.keymap.set('n', prefix .. 'w', function()
+  harpoon:list():select(2)
+end, { desc = 'Select Second' }, opt)
+vim.keymap.set('n', prefix .. 'e', function()
+  harpoon:list():select(3)
+end, { desc = 'Select Third' }, opt)
+vim.keymap.set('n', prefix .. 'r', function()
+  harpoon:list():select(4)
+end, { desc = 'Select Fourth' }, opt)
+vim.keymap.set('n', prefix .. 'p', function()
+  harpoon:list():prev()
+end, { desc = '[H]arpoon [P]revious' }, opt)
+vim.keymap.set('n', prefix .. 'n', function()
+  harpoon:list():next()
+end, { desc = '[H]arpoon [N]ext' }, opt)
