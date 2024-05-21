@@ -40,6 +40,7 @@ vim.keymap.set('n', prefix .. 'a', gitsigns.stage_hunk, { desc = '[A]dd' }, opt)
 vim.keymap.set('n', prefix .. 'u', gitsigns.undo_stage_hunk, { desc = '[U]nstage' }, opt)
 vim.keymap.set('n', prefix .. 'r', gitsigns.reset_hunk, { desc = '[R]eset' }, opt)
 vim.keymap.set('n', prefix .. 'h', gitsigns.preview_hunk, { desc = '[H]unk Preview' }, opt)
+vim.keymap.set('n', prefix .. 'd', '<cmd>DiffViewOpen', { desc = '[D]iff View' }, opt)
 vim.keymap.set('v', 'a', function()
   gitsigns.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
 end, { desc = '[G]it [S]tage Selection' })
@@ -59,10 +60,11 @@ vim.keymap.set('n', prefix .. 'f', vim.lsp.buf.format, { desc = '[C]ode [F]ormat
 vim.keymap.set('n', prefix .. 'r', vim.lsp.buf.rename, { desc = '[R]ename' }, opt)
 vim.keymap.set('n', prefix .. 'd', tbuiltin.diagnostics, { desc = '[D]iagnostic' }, opt)
 vim.keymap.set('n', prefix .. 'g', tbuiltin.lsp_implementations, { desc = '[G]oto implementation' }, opt)
+vim.keymap.set('n', prefix .. 'k', '<cmd>vim.diagnostics.open_float()<CR>', { desc = 'Open diagnostics in float' }, opt)
 
 -- search
 prefix = '<leader>s'
-vim.keymap.set('n', prefix .. ' ', tbuiltin.buffers, { desc = 'Current Buffers' }, opt)
+vim.keymap.set('n', '<leader>' .. ' ', tbuiltin.buffers, { desc = 'Current Buffers' }, opt)
 vim.keymap.set('n', prefix .. 'f', tbuiltin.find_files, { desc = '[F]ile' }, opt)
 vim.keymap.set('n', prefix .. 'g', tbuiltin.live_grep, { desc = '[G]rep' }, opt)
 vim.keymap.set('n', prefix .. 'h', tbuiltin.help_tags, { desc = '[H]elp' }, opt)
