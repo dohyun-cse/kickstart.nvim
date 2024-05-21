@@ -40,7 +40,7 @@ vim.keymap.set('n', prefix .. 'a', gitsigns.stage_hunk, { desc = '[A]dd' }, opt)
 vim.keymap.set('n', prefix .. 'u', gitsigns.undo_stage_hunk, { desc = '[U]nstage' }, opt)
 vim.keymap.set('n', prefix .. 'r', gitsigns.reset_hunk, { desc = '[R]eset' }, opt)
 vim.keymap.set('n', prefix .. 'h', gitsigns.preview_hunk, { desc = '[H]unk Preview' }, opt)
-vim.keymap.set('n', prefix .. 'd', '<cmd>DiffViewOpen<CR>', { desc = '[D]iff View' }, opt)
+vim.keymap.set('n', prefix .. 'd', '<cmd>DiffviewOpen<CR>', { desc = '[D]iff View' }, opt)
 vim.keymap.set('v', 'a', function()
   gitsigns.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
 end, { desc = '[G]it [S]tage Selection' })
