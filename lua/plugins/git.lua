@@ -1,7 +1,6 @@
 return {
 	{
 		"sindrets/diffview.nvim",
-		keymaps = { view = { { "n", "q", "<cmd>DiffviewClose<CR>", { desc = "Close diff view" } } } },
 	},
 	{
 		-- You need to install lazygit and git-delta
