@@ -13,6 +13,20 @@ function Git_commit()
 	end)
 end
 
+function Git_DiffCommits(prompt_bfnr)
+  local action_state = require("telescope.actions.state")
+	local picker = action_state.get_current_picker(prompt_bfnr)
+	local items = picker:get_multi_selection()
+	local cmd
+	if #items == 1 then
+		cmd = "DiffviewOpen " .. items[1].value .. "~1.." .. items[1].value
+	else
+		cmd = "DiffviewOpen " .. items[1].value .. " " .. items[2].value
+	end
+	vim.api.nvim_win_close(0, true)
+	vim.cmd(cmd)
+end
+
 --
 vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover Document" })
 vim.keymap.set("n", "<leader>e", "<cmd>Neotree filesystem reveal right<CR>", { desc = "[E]xplorer" })
@@ -81,10 +95,19 @@ vim.keymap.set("n", prefix .. "h", tbuiltin.help_tags, { desc = "[H]elp" }, opt)
 vim.keymap.set("n", prefix .. "k", tbuiltin.keymaps, { desc = "[K]eymaps" }, opt)
 vim.keymap.set("n", prefix .. "l", tbuiltin.current_buffer_fuzzy_find, { desc = "[L]ocal Grep" }, opt)
 vim.keymap.set("n", prefix .. "b", tbuiltin.git_branches, { desc = "[B]ranches" }, opt)
+vim.keymap.set("n", prefix .. "c", function()
+	tbuiltin.git_commits({
+		attach_mappings = function(_, map)
+			map("n", "<C-o>", Git_DiffCommits)
+			return true
+		end,
+	})
+end, { desc = "[C]ommits" }, opt)
 vim.keymap.set("n", prefix .. "n", "<cmd>TodoTelescope<CR>", { desc = "[N]otes, Todo, etc" }, opt)
 vim.keymap.set("n", prefix .. "w", tbuiltin.lsp_workspace_symbols, { desc = "[W]orkspace" }, opt)
 vim.keymap.set("n", prefix .. "b", tbuiltin.lsp_document_symbols, { desc = "[B]uffer" }, opt)
 vim.keymap.set("n", prefix .. "d", tbuiltin.lsp_dynamic_workspace_symbols, { desc = "[D]ynamic Workspace" }, opt)
+vim.keymap.set("v", prefix .. "g", "y<ESC>:Telescope live_grep default_text=<c-r>0<CR>", opt)
 
 -- harpoon
 prefix = "<leader>h"
