@@ -128,7 +128,7 @@ return {
 			lspconfig.lua_ls.setup({})
 			lspconfig.clangd.setup({
 				capabilities = vim.lsp.protocol.make_client_capabilities(),
-				cmd = { "clangd", "--offset-encoding=utf-16" },
+				cmd = { "clangd", "--offset-encoding=utf-16", "--header-insertion=never" },
 				on_attach = function(client, bufnr)
 					require("lsp_signature").on_attach({ bind = true, handler_opts = { border = "rounded" } }, bufnr)
 				end,

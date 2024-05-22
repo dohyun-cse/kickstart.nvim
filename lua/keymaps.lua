@@ -104,9 +104,6 @@ vim.keymap.set("n", prefix .. "c", function()
 	})
 end, { desc = "[C]ommits" }, opt)
 vim.keymap.set("n", prefix .. "n", "<cmd>TodoTelescope<CR>", { desc = "[N]otes, Todo, etc" }, opt)
-vim.keymap.set("n", prefix .. "w", tbuiltin.lsp_workspace_symbols, { desc = "[W]orkspace" }, opt)
-vim.keymap.set("n", prefix .. "b", tbuiltin.lsp_document_symbols, { desc = "[B]uffer" }, opt)
-vim.keymap.set("n", prefix .. "d", tbuiltin.lsp_dynamic_workspace_symbols, { desc = "[D]ynamic Workspace" }, opt)
 vim.keymap.set("v", prefix .. "g", "y<ESC>:Telescope live_grep default_text=<c-r>0<CR>", opt)
 
 -- harpoon
