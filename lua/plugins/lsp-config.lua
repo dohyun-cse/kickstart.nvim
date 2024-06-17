@@ -17,13 +17,13 @@ return {
 			})
 		end,
 	},
-	{
-		"ray-x/lsp_signature.nvim",
-		opts = { select_signature_key = "<C-k>" },
-		config = function(_, opts)
-			require("lsp_signature").setup(opts)
-		end,
-	},
+	-- {
+	-- 	"ray-x/lsp_signature.nvim",
+	-- 	opts = { select_signature_key = "<C-k>" },
+	-- 	config = function(_, opts)
+	-- 		require("lsp_signature").setup(opts)
+	-- 	end,
+	-- },
 	{ "wellle/targets.vim" },
 	{
 		"folke/todo-comments.nvim",
@@ -59,6 +59,7 @@ return {
 			"saadparwaiz1/cmp_luasnip",
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-path",
+			"hrsh7th/cmp-nvim-lsp-signature-help",
 		},
 		config = function()
 			-- See `:help cmp`
@@ -71,6 +72,12 @@ return {
 					expand = function(args)
 						luasnip.lsp_expand(args.body)
 					end,
+				},
+				sources = {
+					{ name = "nvim_lsp" },
+					{ name = "luasnip" },
+					{ name = "path" },
+					{ name = "nvim_lsp_signature_help" },
 				},
 				completion = { completeopt = "menu,menuone,noinsert" },
 
@@ -113,11 +120,6 @@ return {
 						end
 					end, { "i", "s" }),
 				}),
-				sources = {
-					{ name = "nvim_lsp" },
-					{ name = "luasnip" },
-					{ name = "path" },
-				},
 			})
 		end,
 	},

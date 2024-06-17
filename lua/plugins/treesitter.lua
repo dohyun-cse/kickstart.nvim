@@ -1,4 +1,5 @@
 return {
+  {
   'nvim-treesitter/nvim-treesitter',
   build = ':TSUpdate',
   config = function()
@@ -9,4 +10,8 @@ return {
       indent = { enable = true },
     }
   end,
+  },
+  {
+    'nvim-treesitter/playground'
+  }
 }

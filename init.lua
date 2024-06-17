@@ -17,3 +17,5 @@ require 'vim-options'
 require('lazy').setup 'plugins'
 require 'keymaps'
 vim.cmd [[colorscheme dracula]]
+vim.cmd [[highlight! DiffChange guibg=#313241]]
+vim.cmd [[highlight! DiffText guibg=#4E432F guifg=#ffffff]]
