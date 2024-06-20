@@ -3,6 +3,10 @@ return {
 		"sindrets/diffview.nvim",
 		config = function()
 			require("diffview").setup({
+        keymaps = {
+          disable_defaults = false,
+          view = { "n", "q", "<cmd>tabc<CR>", {desc = "Close all"}},
+        },
 				hooks = {
 					diff_buf_win_enter = function(bufnr, winid, ctx)
 						if ctx.layout_name:match("^diff2") then
