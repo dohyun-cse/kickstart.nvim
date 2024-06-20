@@ -11,7 +11,7 @@ return {
 			"Tight",
 			"LaTeX Font Warning",
 			"Package breakurl Warning",
-			"Package caption Warning: Unknown document class (or package), standard defaults will be used.",
+			"Package caption Warning: Unknown document class",
 		}
 	end,
 }
