@@ -28,7 +28,7 @@ function Git_DiffCommits(prompt_bfnr)
 end
 
 --
-vim.keymap.set("n", "<leader>o", "yi):!open <C-r>*<CR><esc><esc>")
+-- vim.keymap.set("n", "<leader>o", "yi):!open <C-r>*<CR><esc><esc>")
 --
 vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover Document" })
 vim.keymap.set("n", "<leader>e", "<cmd>Neotree filesystem reveal right<CR>", { desc = "[E]xplorer" })

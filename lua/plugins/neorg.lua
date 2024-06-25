@@ -14,13 +14,11 @@ return {
 	},
 	{
 		"nvim-neorg/neorg",
-		dependencies = { "luarocks.nvim", "image.nvim", "pysan3/neorg-templates", "nvim-lua/plenary.nvim", "nvim-neorg/neorg-telescope"},
+		dependencies = { "luarocks.nvim", "image.nvim", "nvim-lua/plenary.nvim", "nvim-neorg/neorg-telescope"},
 		version = "*",
 		config = function()
 			require("neorg").setup({
 				load = {
-          ["external.templates"] = {
-          },
 					["core.defaults"] = {},
 					["core.concealer"] = {
 						config = {

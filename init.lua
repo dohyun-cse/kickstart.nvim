@@ -11,11 +11,13 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   }
 end
 vim.opt.rtp:prepend(lazypath)
+vim.cmd [[set termguicolors]]
 
 -- plugins
 require 'vim-options'
 require('lazy').setup 'plugins'
 require 'keymaps'
+vim.cmd [[highlight! Conceal guifg=#f5c2e7]]
 -- vim.cmd [[colorscheme dracula]]
 -- vim.cmd [[highlight! DiffChange ctermbg=7 guibg=#313241]]
 -- vim.cmd [[highlight! DiffText ctermbg=8 ctermfg=15 guibg=#4E432F guifg=#ffffff]]

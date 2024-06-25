@@ -11,10 +11,10 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
 -- indentation
-vim.cmd 'set expandtab'
 vim.cmd 'set tabstop=2'
 vim.cmd 'set softtabstop=2'
 vim.cmd 'set shiftwidth=2'
+vim.cmd 'set expandtab'
 vim.opt.breakindent = true
 
 -- undo history

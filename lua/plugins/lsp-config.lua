@@ -1,161 +1,167 @@
 return {
-	{
-		"williamboman/mason.nvim",
-		config = function()
-			require("mason").setup()
-		end,
-	},
-	{
-		"aznhe21/actions-preview.nvim",
-		config = function()
-			require("actions-preview").setup({
-				diff = {
-					algorithm = "patience",
-					ignore_whitespace = true,
-				},
-				telescope = require("telescope.themes").get_dropdown({ winblend = 10 }),
-			})
-		end,
-	},
-	-- {
-	-- 	"ray-x/lsp_signature.nvim",
-	-- 	opts = { select_signature_key = "<C-k>" },
-	-- 	config = function(_, opts)
-	-- 		require("lsp_signature").setup(opts)
-	-- 	end,
-	-- },
-	{ "wellle/targets.vim" },
-	{
-		"folke/todo-comments.nvim",
-		dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
-		opts = {},
-	},
+  {
+    "williamboman/mason.nvim",
+    config = function()
+      require("mason").setup()
+    end,
+  },
+  {
+    "aznhe21/actions-preview.nvim",
+    config = function()
+      require("actions-preview").setup({
+        diff = {
+          algorithm = "patience",
+          ignore_whitespace = true,
+        },
+        telescope = require("telescope.themes").get_dropdown({ winblend = 10 }),
+      })
+    end,
+  },
+  {
+    "jiangmiao/auto-pairs",
+  },
+  {
+    "ray-x/lsp_signature.nvim",
+    opts = { select_signature_key = "<C-k>" },
+    config = function(_, opts)
+      require("lsp_signature").setup(opts)
+    end,
+  },
+  { "wellle/targets.vim" },
+  {
+    "folke/todo-comments.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
+    opts = {},
+  },
 
-	{
-		"williamboman/mason-lspconfig.nvim",
-		config = function()
-			require("mason-lspconfig").setup({
-				-- ensure_installed = { 'lua_ls', 'clangd', 'grammarly' },
-			})
-		end,
-	},
-	{ -- Autocompletion
-		"hrsh7th/nvim-cmp",
-		event = "InsertEnter",
-		dependencies = {
-			-- Snippet Engine & its associated nvim-cmp source
-			{
-				"L3MON4D3/LuaSnip",
-				build = (function()
-					-- Build Step is needed for regex support in snippets
-					-- This step is not supported in many windows environments
-					-- Remove the below condition to re-enable on windows
-					if vim.fn.has("win32") == 1 or vim.fn.executable("make") == 0 then
-						return
-					end
-					return "make install_jsregexp"
-				end)(),
-			},
-			"saadparwaiz1/cmp_luasnip",
-			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-path",
-			"hrsh7th/cmp-nvim-lsp-signature-help",
-		},
-		config = function()
-			-- See `:help cmp`
-			local cmp = require("cmp")
-			local luasnip = require("luasnip")
-			luasnip.config.setup({})
+  {
+    "williamboman/mason-lspconfig.nvim",
+    config = function()
+      require("mason-lspconfig").setup({
+        ensure_installed = { "lua_ls", "clangd", "grammarly", "ltex" },
+      })
+    end,
+  },
+  { -- Autocompletion
+    "hrsh7th/nvim-cmp",
+    event = "InsertEnter",
+    dependencies = {
+      -- Snippet Engine & its associated nvim-cmp source
+      {
+        "L3MON4D3/LuaSnip",
+        build = (function()
+          -- Build Step is needed for regex support in snippets
+          -- This step is not supported in many windows environments
+          -- Remove the below condition to re-enable on windows
+          if vim.fn.has("win32") == 1 or vim.fn.executable("make") == 0 then
+            return
+          end
+          return "make install_jsregexp"
+        end)(),
+      },
+      "saadparwaiz1/cmp_luasnip",
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-nvim-lsp-signature-help",
+    },
+    config = function()
+      -- See `:help cmp`
+      local cmp = require("cmp")
+      local luasnip = require("luasnip")
+      luasnip.config.setup({})
 
-			cmp.setup({
-				snippet = {
-					expand = function(args)
-						luasnip.lsp_expand(args.body)
-					end,
-				},
-				sources = {
-					{ name = "nvim_lsp" },
-					{ name = "luasnip" },
-					{ name = "path" },
-					{ name = "nvim_lsp_signature_help" },
-				},
-				completion = { completeopt = "menu,menuone,noinsert" },
+      cmp.setup({
+        snippet = {
+          expand = function(args)
+            luasnip.lsp_expand(args.body)
+          end,
+        },
+        sources = {
+          { name = "nvim_lsp" },
+          { name = "luasnip" },
+          { name = "path" },
+          { name = "nvim_lsp_signature_help" },
+        },
+        completion = { completeopt = "menu,menuone,noinsert" },
 
-				-- For an understanding of why these mappings were
-				-- chosen, you will need to read `:help ins-completion`
-				--
-				-- No, but seriously. Please read `:help ins-completion`, it is really good!
-				mapping = cmp.mapping.preset.insert({
-					-- Select the [n]ext item
-					["<C-n>"] = cmp.mapping.select_next_item(),
-					-- Select the [p]revious item
-					["<C-p>"] = cmp.mapping.select_prev_item(),
+        -- For an understanding of why these mappings were
+        -- chosen, you will need to read `:help ins-completion`
+        --
+        -- No, but seriously. Please read `:help ins-completion`, it is really good!
+        mapping = cmp.mapping.preset.insert({
+          -- Select the [n]ext item
+          ["<C-n>"] = cmp.mapping.select_next_item(),
+          -- Select the [p]revious item
+          ["<C-p>"] = cmp.mapping.select_prev_item(),
 
-					-- Accept ([y]es) the completion.
-					--  This will auto-import if your LSP supports it.
-					--  This will expand snippets if the LSP sent a snippet.
-					["<C-y>"] = cmp.mapping.confirm({ select = true }),
+          -- Accept ([y]es) the completion.
+          --  This will auto-import if your LSP supports it.
+          --  This will expand snippets if the LSP sent a snippet.
+          ["<C-y>"] = cmp.mapping.confirm({ select = true }),
 
-					-- Manually trigger a completion from nvim-cmp.
-					--  Generally you don't need this, because nvim-cmp will display
-					--  completions whenever it has completion options available.
-					["<C-Space>"] = cmp.mapping.complete({}),
+          -- Manually trigger a completion from nvim-cmp.
+          --  Generally you don't need this, because nvim-cmp will display
+          --  completions whenever it has completion options available.
+          ["<C-Space>"] = cmp.mapping.complete({}),
 
-					-- Think of <c-l> as moving to the right of your snippet expansion.
-					--  So if you have a snippet that's like:
-					--  function $name($args)
-					--    $body
-					--  end
-					--
-					-- <c-l> will move you to the right of each of the expansion locations.
-					-- <c-h> is similar, except moving you backwards.
-					["<C-l>"] = cmp.mapping(function()
-						if luasnip.expand_or_locally_jumpable() then
-							luasnip.expand_or_jump()
-						end
-					end, { "i", "s" }),
-					["<C-h>"] = cmp.mapping(function()
-						if luasnip.locally_jumpable(-1) then
-							luasnip.jump(-1)
-						end
-					end, { "i", "s" }),
-				}),
-			})
-		end,
-	},
-	{
-		"neovim/nvim-lspconfig",
-		config = function()
-			local lspconfig = require("lspconfig")
-			lspconfig.lua_ls.setup({})
-			lspconfig.clangd.setup({
-				capabilities = vim.lsp.protocol.make_client_capabilities(),
-				cmd = { "clangd", "--offset-encoding=utf-16", "--header-insertion=never" },
-				on_attach = function(client, bufnr)
-					require("lsp_signature").on_attach({ bind = true, handler_opts = { border = "rounded" } }, bufnr)
-				end,
-			})
-			lspconfig.html.setup({})
-			lspconfig.texlab.setup({
-				capabilities = vim.lsp.protocol.make_client_capabilities(),
-				settings = {
-					texlab = {
-						diagnostics = {
-							ignoredPatterns = {
-								"LaTeX Font Warning: Font shape",
-								"Underfull",
-								"Overfull",
-								"Package breakurl Warning",
-							},
-						},
-					},
-				},
-			})
-			lspconfig.grammarly.setup({
-				filetypes = { "markdown", "tex" },
-				init_options = { clientId = "client_BaDkMgx4X19X9UxxYRCXZo" },
-			})
-		end,
-	},
-	{ "numToStr/Comment.nvim", opts = {} },
+          -- Think of <c-l> as moving to the right of your snippet expansion.
+          --  So if you have a snippet that's like:
+          --  function $name($args)
+          --    $body
+          --  end
+          --
+          -- <c-l> will move you to the right of each of the expansion locations.
+          -- <c-h> is similar, except moving you backwards.
+          ["<C-l>"] = cmp.mapping(function()
+            if luasnip.expand_or_locally_jumpable() then
+              luasnip.expand_or_jump()
+            end
+          end, { "i", "s" }),
+          ["<C-h>"] = cmp.mapping(function()
+            if luasnip.locally_jumpable(-1) then
+              luasnip.jump(-1)
+            end
+          end, { "i", "s" }),
+        }),
+      })
+    end,
+  },
+  {
+    "neovim/nvim-lspconfig",
+    config = function()
+      local lspconfig = require("lspconfig")
+      lspconfig.lua_ls.setup({})
+      lspconfig.ltex.setup({
+        filetypes = { "markdown" },
+      })
+      lspconfig.clangd.setup({
+        capabilities = vim.lsp.protocol.make_client_capabilities(),
+        cmd = { "clangd", "--offset-encoding=utf-16", "--header-insertion=never" },
+        on_attach = function(client, bufnr)
+          require("lsp_signature").on_attach({ bind = true, handler_opts = { border = "rounded" } }, bufnr)
+        end,
+      })
+      lspconfig.html.setup({})
+      lspconfig.texlab.setup({
+        capabilities = vim.lsp.protocol.make_client_capabilities(),
+        settings = {
+          texlab = {
+            diagnostics = {
+              ignoredPatterns = {
+                "LaTeX Font Warning: Font shape",
+                "Underfull",
+                "Overfull",
+                "Package breakurl Warning",
+              },
+            },
+          },
+        },
+      })
+      lspconfig.grammarly.setup({
+        filetypes = { "tex" },
+        init_options = { clientId = "client_BaDkMgx4X19X9UxxYRCXZo" },
+      })
+    end,
+  },
+  { "numToStr/Comment.nvim", opts = {} },
 }
