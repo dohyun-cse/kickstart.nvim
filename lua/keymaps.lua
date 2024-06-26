@@ -5,7 +5,8 @@ local harpoon = require("harpoon")
 
 function Git_commit()
 	vim.ui.input({ prompt = "Commit message: " }, function(message)
-		if message == nil or message == "" then print("Empty commit message. Abort Commit.")
+		if message == nil or message == "" then
+			print("Empty commit message. Abort Commit.")
 		else
 			vim.cmd("!git commit -m " .. string.format("%q", message))
 		end
@@ -13,7 +14,7 @@ function Git_commit()
 end
 
 function Git_DiffCommits(prompt_bfnr)
-  local action_state = require("telescope.actions.state")
+	local action_state = require("telescope.actions.state")
 	local picker = action_state.get_current_picker(prompt_bfnr)
 	local items = picker:get_multi_selection()
 	local cmd
@@ -26,7 +27,7 @@ function Git_DiffCommits(prompt_bfnr)
 	vim.cmd(cmd)
 end
 
-vim.keymap.set({"n", "v"}, "<leader>z", "<cmd>ZenMode<CR>", { desc = "[Z]en mode" })
+vim.keymap.set({ "n", "v" }, "<leader>z", "<cmd>ZenMode<CR>", { desc = "[Z]en mode" })
 --
 vim.keymap.set("n", "<leader>o", "yi):!open <C-r>*<CR><esc><esc>")
 --
@@ -56,9 +57,15 @@ vim.keymap.set("n", prefix .. "a", gitsigns.stage_hunk, { desc = "[A]dd" }, opt)
 vim.keymap.set("n", prefix .. "u", gitsigns.undo_stage_hunk, { desc = "[U]nstage" }, opt)
 vim.keymap.set("n", prefix .. "r", gitsigns.reset_hunk, { desc = "[R]eset" }, opt)
 vim.keymap.set("n", prefix .. "h", gitsigns.preview_hunk, { desc = "[H]unk Preview" }, opt)
-vim.keymap.set("n", prefix .. "p", "<cmd>Git pull<CR>:", {desc = "[P]ull"})
-vim.keymap.set("n", prefix .. "P", "<cmd>Git push<CR>:", {desc = "[P]ush"})
-vim.keymap.set("n", prefix .. "w", require('telescope').extensions.git_worktree.git_worktrees, { desc = "[W]orktrees" }, opt)
+vim.keymap.set("n", prefix .. "p", "<cmd>Git pull<CR>:", { desc = "[P]ull" })
+vim.keymap.set("n", prefix .. "P", "<cmd>Git push<CR>:", { desc = "[P]ush" })
+vim.keymap.set(
+	"n",
+	prefix .. "w",
+	require("telescope").extensions.git_worktree.git_worktrees,
+	{ desc = "[W]orktrees" },
+	opt
+)
 vim.keymap.set("n", prefix .. "d", function()
 	local lib = require("diffview.lib")
 	local view = lib.get_current_view()
@@ -70,10 +77,10 @@ vim.keymap.set("n", prefix .. "d", function()
 		vim.cmd.DiffviewOpen()
 	end
 end, { desc = "[D]iff View" }, opt)
-vim.keymap.set("v", "a", function()
+vim.keymap.set("v", prefix .. "a", function()
 	gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
 end, { desc = "[G]it [S]tage Selection" })
-vim.keymap.set("v", "r", function()
+vim.keymap.set("v", prefix .. "r", function()
 	gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
 end, { desc = "[G]it [R]eset Selection" })
 
