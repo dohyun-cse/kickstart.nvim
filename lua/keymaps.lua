@@ -5,8 +5,7 @@ local harpoon = require("harpoon")
 
 function Git_commit()
 	vim.ui.input({ prompt = "Commit message: " }, function(message)
-		if message == nil or message == "" then
-			print("Empty commit message. Abort Commit.")
+		if message == nil or message == "" then print("Empty commit message. Abort Commit.")
 		else
 			vim.cmd("!git commit -m " .. string.format("%q", message))
 		end
@@ -27,8 +26,9 @@ function Git_DiffCommits(prompt_bfnr)
 	vim.cmd(cmd)
 end
 
+vim.keymap.set({"n", "v"}, "<leader>z", "<cmd>ZenMode<CR>", { desc = "[Z]en mode" })
 --
--- vim.keymap.set("n", "<leader>o", "yi):!open <C-r>*<CR><esc><esc>")
+vim.keymap.set("n", "<leader>o", "yi):!open <C-r>*<CR><esc><esc>")
 --
 vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover Document" })
 vim.keymap.set("n", "<leader>e", "<cmd>Neotree filesystem reveal right<CR>", { desc = "[E]xplorer" })
