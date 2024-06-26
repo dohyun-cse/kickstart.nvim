@@ -48,7 +48,7 @@ local prefix = ""
 
 -- git
 prefix = "<leader>g"
-vim.keymap.set("n", prefix .. "s", "<cmd>Git<CR>", { desc = "[S]tatus" }, opt)
+vim.keymap.set("n", prefix .. "s", "<cmd>LazyGit<CR>", { desc = "[S]tatus" }, opt)
 vim.keymap.set("n", prefix .. "c", Git_commit, { desc = "[C]ommit" }, opt)
 vim.keymap.set("n", prefix .. "l", "<cmd>LazyGitFilterCurrentFile<CR>", { desc = "[L]ogs (current buffer)" }, opt)
 vim.keymap.set("n", prefix .. "L", "<cmd>LazyGitFilter<CR>", { desc = "[L]ogs" }, opt)
