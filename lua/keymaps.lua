@@ -118,6 +118,9 @@ end, { desc = "[C]ommits" }, opt)
 vim.keymap.set("n", prefix .. "n", "<cmd>TodoTelescope<CR>", { desc = "[N]otes, Todo, etc" }, opt)
 vim.keymap.set("v", prefix .. "g", "y<ESC>:Telescope live_grep default_text=<c-r>0<CR>", opt)
 
+vim.keymap.set({"n", "v"}, "<leader>fw", require("flash").jump, {desc = "[F]lash [W]ord" }, opt)
+vim.keymap.set({"n", "v"}, "<leader>ft", require("flash").treesitter, {desc = "[F]lash [T]reesitter" }, opt)
+
 -- harpoon
 prefix = "<leader>h"
 vim.keymap.set("n", prefix .. "a", function()
