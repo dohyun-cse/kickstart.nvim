@@ -121,6 +121,28 @@ vim.keymap.set("v", prefix .. "g", "y<ESC>:Telescope live_grep default_text=<c-r
 vim.keymap.set({"n", "v"}, "<leader>fw", require("flash").jump, {desc = "[F]lash [W]ord" }, opt)
 vim.keymap.set({"n", "v"}, "<leader>ff", require("flash").treesitter, {desc = "[F]lash [T]reesitter" }, opt)
 
+local vault = "~/Obsidian/Zettlekasten"
+prefix = "<leader>o"
+vim.keymap.set("n", prefix .. "n", function()
+  local fname = vim.fn.input("Note name: ", "", "file")
+  local date = vim.fn.strftime("%F")
+
+  vim.cmd("e " .. vault .. "/inbox/" .. date .. "-" .. fname .. ".md")
+end, {desc = "[N]ew note in inbox"})
+
+vim.keymap.set("n", prefix .. "d", function()
+  local date = vim.fn.strftime("%F")
+
+  vim.cmd("e " .. vault .. "/daily/" .. date .. ".md")
+end, {desc = "[D]aily Note"})
+
+vim.keymap.set("n", prefix .. "m", function()
+  local fname = vim.fn.input("Meeting name: ", "", "file")
+  local date = vim.fn.strftime("%F")
+
+  vim.cmd("e " .. vault .. "/meeting/" .. fname .. ".md")
+end, {desc = "[M]eeting Note"})
+
 -- harpoon
 prefix = "<leader>h"
 vim.keymap.set("n", prefix .. "a", function()
