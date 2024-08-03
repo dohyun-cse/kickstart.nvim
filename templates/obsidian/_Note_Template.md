@@ -1,14 +1,11 @@
 ---
 tags: type/note 
 aliases:
-lead: +++ Lead paragraph goes here +++
 visual: "![[image.jpg]]"
 created: {{date}}, {{time}}
 modified: {{date}}, {{time}}
 template-type: Note
-template-version: "1.18"
 ---
-<!--  See "Template Help" below for using properties -->
 
 # {{Title}}
 

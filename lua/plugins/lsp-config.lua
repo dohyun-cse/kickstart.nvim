@@ -131,9 +131,9 @@ return {
     config = function()
       local lspconfig = require("lspconfig")
       lspconfig.lua_ls.setup({})
-      lspconfig.ltex.setup({
-        filetypes = { "markdown" },
-      })
+      -- lspconfig.ltex.setup({
+      --   filetypes = { "markdown" },
+      -- })
       lspconfig.clangd.setup({
         capabilities = vim.lsp.protocol.make_client_capabilities(),
         cmd = { "clangd", "--offset-encoding=utf-16", "--header-insertion=never" },
