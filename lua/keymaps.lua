@@ -4,42 +4,41 @@ local gitsigns = require("gitsigns")
 local harpoon = require("harpoon")
 
 function Git_commit()
-	vim.ui.input({ prompt = "Commit message: " }, function(message)
-		if message == nil or message == "" then
-			print("Empty commit message. Abort Commit.")
-		else
-			vim.cmd("!git commit -m " .. string.format("%q", message))
-		end
-	end)
+  vim.ui.input({ prompt = "Commit message: " }, function(message)
+    if message == nil or message == "" then
+      print("Empty commit message. Abort Commit.")
+    else
+      vim.cmd("!git commit -m " .. string.format("%q", message))
+    end
+  end)
 end
 
 function Git_DiffCommits(prompt_bfnr)
-	local action_state = require("telescope.actions.state")
-	local picker = action_state.get_current_picker(prompt_bfnr)
-	local items = picker:get_multi_selection()
-	local cmd
-	if #items == 1 then
-		cmd = "DiffviewOpen " .. items[1].value .. "~1.." .. items[1].value
-	else
-		cmd = "DiffviewOpen " .. items[1].value .. " " .. items[2].value
-	end
-	vim.api.nvim_win_close(0, true)
-	vim.cmd(cmd)
+  local action_state = require("telescope.actions.state")
+  local picker = action_state.get_current_picker(prompt_bfnr)
+  local items = picker:get_multi_selection()
+  local cmd
+  if #items == 1 then
+    cmd = "DiffviewOpen " .. items[1].value .. "~1.." .. items[1].value
+  else
+    cmd = "DiffviewOpen " .. items[1].value .. " " .. items[2].value
+  end
+  vim.api.nvim_win_close(0, true)
+  vim.cmd(cmd)
 end
 
 vim.keymap.set({ "n", "v" }, "<leader>z", "<cmd>ZenMode<CR>", { desc = "[Z]en mode" })
---
-vim.keymap.set("n", "<leader>o", "yi):!open <C-r>*<CR><esc><esc>")
 --
 vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover Document" })
 vim.keymap.set("n", "<leader>e", "<cmd>Neotree filesystem reveal right<CR>", { desc = "[E]xplorer" })
 vim.keymap.set("n", "<leader>z", "<cmd>ZenMode<CR>", { desc = "[Z]en mode" })
 
 require("which-key").register({
-	["g"] = { name = "[G]it", b = { name = "[B]uffer" } },
-	["c"] = { name = "[C]ode" },
-	["s"] = { name = "[S]earch", s = { name = "[S]ymbols" } },
-	["h"] = { name = "[H]arpoon" },
+  ["g"] = { name = "[G]it", b = { name = "[B]uffer" } },
+  ["c"] = { name = "[C]ode" },
+  ["s"] = { name = "[S]earch", s = { name = "[S]ymbols" } },
+  ["h"] = { name = "[H]arpoon" },
+  ["o"] = { name = "[O]bsidian" },
 }, { prefix = "<leader>" })
 require("which-key").register({ g = { name = "[G]it" } }, { mode = "v", prefix = "<leader>" })
 
@@ -60,28 +59,28 @@ vim.keymap.set("n", prefix .. "h", gitsigns.preview_hunk, { desc = "[H]unk Previ
 vim.keymap.set("n", prefix .. "p", "<cmd>Git pull<CR>:", { desc = "[P]ull" })
 vim.keymap.set("n", prefix .. "P", "<cmd>Git push<CR>:", { desc = "[P]ush" })
 vim.keymap.set(
-	"n",
-	prefix .. "w",
-	require("telescope").extensions.git_worktree.git_worktrees,
-	{ desc = "[W]orktrees" },
-	opt
+  "n",
+  prefix .. "w",
+  require("telescope").extensions.git_worktree.git_worktrees,
+  { desc = "[W]orktrees" },
+  opt
 )
 vim.keymap.set("n", prefix .. "d", function()
-	local lib = require("diffview.lib")
-	local view = lib.get_current_view()
-	if view then
-		-- Current tabpage is a Diffview; close it
-		vim.cmd.DiffviewClose()
-	else
-		-- No open Diffview exists: open a new one
-		vim.cmd.DiffviewOpen()
-	end
+  local lib = require("diffview.lib")
+  local view = lib.get_current_view()
+  if view then
+    -- Current tabpage is a Diffview; close it
+    vim.cmd.DiffviewClose()
+  else
+    -- No open Diffview exists: open a new one
+    vim.cmd.DiffviewOpen()
+  end
 end, { desc = "[D]iff View" }, opt)
 vim.keymap.set("v", prefix .. "a", function()
-	gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+  gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
 end, { desc = "[G]it [S]tage Selection" })
 vim.keymap.set("v", prefix .. "r", function()
-	gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
+  gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
 end, { desc = "[G]it [R]eset Selection" })
 
 -- git buffer
@@ -108,64 +107,131 @@ vim.keymap.set("n", prefix .. "k", tbuiltin.keymaps, { desc = "[K]eymaps" }, opt
 vim.keymap.set("n", prefix .. "l", tbuiltin.current_buffer_fuzzy_find, { desc = "[L]ocal Grep" }, opt)
 vim.keymap.set("n", prefix .. "b", tbuiltin.git_branches, { desc = "[B]ranches" }, opt)
 vim.keymap.set("n", prefix .. "c", function()
-	tbuiltin.git_commits({
-		attach_mappings = function(_, map)
-			map("n", "<C-o>", Git_DiffCommits)
-			return true
-		end,
-	})
+  tbuiltin.git_commits({
+    attach_mappings = function(_, map)
+      map("n", "<C-o>", Git_DiffCommits)
+      return true
+    end,
+  })
 end, { desc = "[C]ommits" }, opt)
 vim.keymap.set("n", prefix .. "n", "<cmd>TodoTelescope<CR>", { desc = "[N]otes, Todo, etc" }, opt)
 vim.keymap.set("v", prefix .. "g", "y<ESC>:Telescope live_grep default_text=<c-r>0<CR>", opt)
 
-vim.keymap.set({"n", "v"}, "<leader>fw", require("flash").jump, {desc = "[F]lash [W]ord" }, opt)
-vim.keymap.set({"n", "v"}, "<leader>ff", require("flash").treesitter, {desc = "[F]lash [T]reesitter" }, opt)
+vim.keymap.set({ "n", "v" }, "<leader>fw", require("flash").jump, { desc = "[F]lash [W]ord" }, opt)
+vim.keymap.set({ "n", "v" }, "<leader>ff", require("flash").treesitter, { desc = "[F]lash [T]reesitter" }, opt)
 
 local vault = "~/Obsidian/Zettlekasten"
+local templates = "~/.config/nvim/templates"
+local function file_exists(name)
+  local f = io.open(vim.fn.expand(name), "r")
+  if f ~= nil then
+    io.close(f)
+    return true
+  else
+    return false
+  end
+end
+
 prefix = "<leader>o"
 vim.keymap.set("n", prefix .. "n", function()
   local fname = vim.fn.input("Note name: ", "", "file")
+  if fname == nil or fname == "" then
+    print("Note name not provided.")
+    return
+  end
   local date = vim.fn.strftime("%F")
 
-  vim.cmd("e " .. vault .. "/inbox/" .. date .. "-" .. fname .. ".md")
-end, {desc = "[N]ew note in inbox"})
+  local fullname = vault .. "/inbox/" .. date .. "-" .. fname .. ".md"
+  if file_exists(fullname) then
+    vim.cmd("silent e " .. fullname)
+    return
+  end
+  vim.cmd("silent !cp " .. templates .. "/note.md " .. fullname)
+  vim.cmd("e " .. fullname)
+  vim.cmd("%s/{{date}}/" .. date .. "/g")
+  vim.cmd("%s/{{title}}/" .. fname .. "/g")
+end, { desc = "[N]ew note in inbox" }, opt)
 
 vim.keymap.set("n", prefix .. "d", function()
   local date = vim.fn.strftime("%F")
 
-  vim.cmd("e " .. vault .. "/daily/" .. date .. ".md")
-end, {desc = "[D]aily Note"})
+  local fullname = vault .. "/daily/" .. date .. ".md"
+
+
+  print(file_exists(fullname))
+  print(fullname)
+  if file_exists(fullname) then
+    vim.cmd("silent e " .. fullname)
+    return
+  end
+  vim.cmd("silent !cp " .. templates .. "/daily.md " .. fullname)
+  vim.cmd("e " .. fullname)
+  vim.cmd("%s/{{date}}/" .. date .. "/g")
+end, { desc = "[D]aily Note" }, opt)
 
 vim.keymap.set("n", prefix .. "m", function()
   local fname = vim.fn.input("Meeting name: ", "", "file")
+  if fname == nil or fname == "" then
+    print("Note name not provided.")
+    return
+  end
   local date = vim.fn.strftime("%F")
 
-  vim.cmd("e " .. vault .. "/meeting/" .. fname .. ".md")
-end, {desc = "[M]eeting Note"})
+  local fullname = vault .. "/meeting/" .. date .. "-" .. fname .. ".md"
+  if file_exists(fullname) then
+    vim.cmd("silent e " .. fullname)
+    return
+  end
+  vim.cmd("silent !cp " .. templates .. "/meeting.md " .. fullname)
+  vim.cmd("e " .. fullname)
+  vim.cmd("%s/{{date}}/" .. date .. "/g")
+  vim.cmd("%s/{{title}}/" .. fname .. "/g")
+end, { desc = "[M]eeting Note" }, opt)
+
+vim.keymap.set(
+  "n",
+  prefix .. "f",
+  '<cmd>Telescope find_files search_dirs={"' .. vault .. '"}<CR>',
+  { desc = "[F]ind notes" },
+  opt
+)
+vim.keymap.set(
+  "n",
+  prefix .. "g",
+  '<cmd>Telescope live_grep search_dirs={"' .. vault .. '"}<CR>',
+  { desc = "[F]ind notes" },
+  opt
+)
+vim.keymap.set("n", prefix .. "o", function()
+  print(vim.fn.expand(vault))
+  print(vim.fn.expand("%:p"))
+  local fname = string.gsub(string.gsub(vim.fn.expand("%:p"), vim.fn.expand(vault) .. "/", ""), ".md", "")
+  vim.cmd('silent !open "obsidian://open?vault=Zettlekasten&file=' .. fname .. '"')
+end, { desc = "[O]pen in Obsidian" }, opt)
 
 -- harpoon
 prefix = "<leader>h"
 vim.keymap.set("n", prefix .. "a", function()
-	harpoon:list():add()
+  harpoon:list():add()
 end, { desc = "[H]arpoon [A]dd" }, opt)
 vim.keymap.set("n", prefix .. "l", function()
-	harpoon.ui:toggle_quick_menu(harpoon:list())
+  harpoon.ui:toggle_quick_menu(harpoon:list())
 end, { desc = "[H]arpoon [L]ist" }, opt)
 vim.keymap.set("n", prefix .. "q", function()
-	harpoon:list():select(1)
+  harpoon:list():select(1)
 end, { desc = "Select First" }, opt)
 vim.keymap.set("n", prefix .. "w", function()
-	harpoon:list():select(2)
+  harpoon:list():select(2)
 end, { desc = "Select Second" }, opt)
 vim.keymap.set("n", prefix .. "e", function()
-	harpoon:list():select(3)
+  harpoon:list():select(3)
 end, { desc = "Select Third" }, opt)
 vim.keymap.set("n", prefix .. "r", function()
-	harpoon:list():select(4)
+  harpoon:list():select(4)
 end, { desc = "Select Fourth" }, opt)
 vim.keymap.set("n", prefix .. "p", function()
-	harpoon:list():prev()
+  harpoon:list():prev()
 end, { desc = "[H]arpoon [P]revious" }, opt)
 vim.keymap.set("n", prefix .. "n", function()
-	harpoon:list():next()
+  harpoon:list():next()
 end, { desc = "[H]arpoon [N]ext" }, opt)
