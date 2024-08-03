@@ -120,8 +120,9 @@ vim.keymap.set("v", prefix .. "g", "y<ESC>:Telescope live_grep default_text=<c-r
 vim.keymap.set({ "n", "v" }, "<leader>fw", require("flash").jump, { desc = "[F]lash [W]ord" }, opt)
 vim.keymap.set({ "n", "v" }, "<leader>ff", require("flash").treesitter, { desc = "[F]lash [T]reesitter" }, opt)
 
-local vault = "~/Obsidian/Zettlekasten"
-local templates = "~/.config/nvim/templates"
+-- local vault = vim.fn.expand(vim.fn.resolve(vim.fn.expand("~/Obsidian/Zettlekasten")))
+local vault = vim.fn.resolve(vim.fn.expand("~/Obsidian")) .. "/my_vault"
+local templates = vault .. "/templates"
 local function file_exists(name)
   local f = io.open(vim.fn.expand(name), "r")
   if f ~= nil then
@@ -156,10 +157,6 @@ vim.keymap.set("n", prefix .. "d", function()
   local date = vim.fn.strftime("%F")
 
   local fullname = vault .. "/daily/" .. date .. ".md"
-
-
-  print(file_exists(fullname))
-  print(fullname)
   if file_exists(fullname) then
     vim.cmd("silent e " .. fullname)
     return
@@ -188,26 +185,18 @@ vim.keymap.set("n", prefix .. "m", function()
   vim.cmd("%s/{{title}}/" .. fname .. "/g")
 end, { desc = "[M]eeting Note" }, opt)
 
-vim.keymap.set(
-  "n",
-  prefix .. "f",
-  '<cmd>Telescope find_files search_dirs={"' .. vault .. '"}<CR>',
-  { desc = "[F]ind notes" },
-  opt
-)
-vim.keymap.set(
-  "n",
-  prefix .. "g",
-  '<cmd>Telescope live_grep search_dirs={"' .. vault .. '"}<CR>',
-  { desc = "[F]ind notes" },
-  opt
-)
 vim.keymap.set("n", prefix .. "o", function()
-  print(vim.fn.expand(vault))
-  print(vim.fn.expand("%:p"))
-  local fname = string.gsub(string.gsub(vim.fn.expand("%:p"), vim.fn.expand(vault) .. "/", ""), ".md", "")
+  local fname =
+      string.gsub(string.gsub(vim.fn.expand("%:p"), vault .. "/", ""), ".md", "")
   vim.cmd('silent !open "obsidian://open?vault=Zettlekasten&file=' .. fname .. '"')
 end, { desc = "[O]pen in Obsidian" }, opt)
+
+vim.keymap.set("n", prefix .. "f", function()
+  tbuiltin.find_files({ search_dirs = { vault } })
+end, { desc = "[F]ind notes" }, opt)
+vim.keymap.set("n", prefix .. "g", function()
+  tbuiltin.live_grep({ search_dirs = { vault } })
+end, { desc = "[G]rep notes" }, opt)
 
 -- harpoon
 prefix = "<leader>h"
