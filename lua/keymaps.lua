@@ -120,7 +120,6 @@ vim.keymap.set("v", prefix .. "g", "y<ESC>:Telescope live_grep default_text=<c-r
 vim.keymap.set({ "n", "v" }, "<leader>fw", require("flash").jump, { desc = "[F]lash [W]ord" }, opt)
 vim.keymap.set({ "n", "v" }, "<leader>ff", require("flash").treesitter, { desc = "[F]lash [T]reesitter" }, opt)
 
--- local vault = vim.fn.expand(vim.fn.resolve(vim.fn.expand("~/Obsidian/Zettlekasten")))
 local vault = vim.fn.resolve(vim.fn.expand("~/Obsidian")) .. "/my_vault"
 local templates = vault .. "/templates"
 local function file_exists(name)
@@ -147,10 +146,8 @@ vim.keymap.set("n", prefix .. "n", function()
     vim.cmd("silent e " .. fullname)
     return
   end
-  vim.cmd("silent !cp " .. templates .. "/note.md " .. fullname)
   vim.cmd("e " .. fullname)
-  vim.cmd("%s/{{date}}/" .. date .. "/g")
-  vim.cmd("%s/{{title}}/" .. fname .. "/g")
+  vim.cmd("ObsidianTemplate note")
 end, { desc = "[N]ew note in inbox" }, opt)
 
 vim.keymap.set("n", prefix .. "d", function()
@@ -161,9 +158,8 @@ vim.keymap.set("n", prefix .. "d", function()
     vim.cmd("silent e " .. fullname)
     return
   end
-  vim.cmd("silent !cp " .. templates .. "/daily.md " .. fullname)
   vim.cmd("e " .. fullname)
-  vim.cmd("%s/{{date}}/" .. date .. "/g")
+  vim.cmd("ObsidianTemplate daily")
 end, { desc = "[D]aily Note" }, opt)
 
 vim.keymap.set("n", prefix .. "m", function()
@@ -179,16 +175,14 @@ vim.keymap.set("n", prefix .. "m", function()
     vim.cmd("silent e " .. fullname)
     return
   end
-  vim.cmd("silent !cp " .. templates .. "/meeting.md " .. fullname)
   vim.cmd("e " .. fullname)
-  vim.cmd("%s/{{date}}/" .. date .. "/g")
-  vim.cmd("%s/{{title}}/" .. fname .. "/g")
+  vim.cmd("ObsidianTemplate meeting")
 end, { desc = "[M]eeting Note" }, opt)
 
 vim.keymap.set("n", prefix .. "o", function()
   local fname =
       string.gsub(string.gsub(vim.fn.expand("%:p"), vault .. "/", ""), ".md", "")
-  vim.cmd('silent !open "obsidian://open?vault=Zettlekasten&file=' .. fname .. '"')
+  vim.cmd('silent !open "obsidian://open?vault=my_vault&file=' .. fname .. '"')
 end, { desc = "[O]pen in Obsidian" }, opt)
 
 vim.keymap.set("n", prefix .. "f", function()

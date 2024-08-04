@@ -5,8 +5,8 @@ return {
 	lazy = true,
 	ft = "markdown",
 	event = {
-	  "BufReadPre " .. obsidian_path .. "**/*.md",
-	  "BufNewFile " .. obsidian_path .. "**/*.md",
+		"BufReadPre " .. obsidian_path .. "**/*.md",
+		"BufNewFile " .. obsidian_path .. "**/*.md",
 	},
 	dependencies = {
 		-- Required.
@@ -19,12 +19,17 @@ return {
 				path = obsidian_path .. "/my_vault",
 			},
 		},
-    completion = {
-    -- Set to false to disable completion.
-    nvim_cmp = true,
-    -- Trigger completion at 2 chars.
-    min_chars = 0,
-  },
+		templates = {
+			folder = "templates",
+			date_format = "%Y-%m-%d",
+			time_format = "%H:%M",
+		},
+		completion = {
+			-- Set to false to disable completion.
+			nvim_cmp = true,
+			-- Trigger completion at 2 chars.
+			min_chars = 0,
+		},
 
 		-- see below for full list of options 👇
 	},
