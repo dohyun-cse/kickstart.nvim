@@ -34,16 +34,3 @@ vim.opt.inccommand = "split"
 vim.opt.hlsearch = true
 vim.keymap.set("n", "<esc>", "<cmd>nohl<CR>", { desc = "Disable Search Highlight" })
 
-vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
-  pattern = "*.md",
-  callback = function()
-    vim.cmd("set conceallevel=2")
-  end,
-})
-
-vim.api.nvim_create_autocmd({ "BufLeave", "BufWinLeave" }, {
-  pattern = "*.md",
-  callback = function()
-    vim.cmd("set conceallevel=0")
-  end,
-})

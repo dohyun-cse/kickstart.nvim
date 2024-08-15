@@ -120,6 +120,13 @@ vim.keymap.set("v", prefix .. "g", "y<ESC>:Telescope live_grep default_text=<c-r
 vim.keymap.set({ "n", "v" }, "<leader>fw", require("flash").jump, { desc = "[F]lash [W]ord" }, opt)
 vim.keymap.set({ "n", "v" }, "<leader>ff", require("flash").treesitter, { desc = "[F]lash [T]reesitter" }, opt)
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    vim.cmd("set conceallevel=2")
+  end,
+})
+
 local vault = vim.fn.resolve(vim.fn.expand("~/Obsidian")) .. "/my_vault"
 local templates = vault .. "/templates"
 local function file_exists(name)
@@ -191,6 +198,19 @@ end, { desc = "[F]ind notes" }, opt)
 vim.keymap.set("n", prefix .. "g", function()
   tbuiltin.live_grep({ search_dirs = { vault } })
 end, { desc = "[G]rep notes" }, opt)
+
+vim.keymap.set("n", "<leader>nt", function()
+  local pwd = vim.fn.getcwd()
+  vim.cmd('silent !tmux split-window -c "' .. pwd .. '"')
+end, {desc = "[N]ew [T]erminal"}, opt
+)
+
+vim.keymap.set("n", "<leader>nf", function()
+  local pwd = vim.fn.getcwd()
+  vim.cmd('silent !open "' .. pwd .. '"')
+end, {desc = "[N]ew [F]inder"}, opt
+)
+
 
 -- harpoon
 prefix = "<leader>h"

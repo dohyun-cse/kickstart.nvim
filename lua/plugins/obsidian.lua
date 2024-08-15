@@ -5,8 +5,8 @@ return {
 	lazy = true,
 	ft = "markdown",
 	event = {
-		"BufReadPre " .. obsidian_path .. "**/*.md",
-		"BufNewFile " .. obsidian_path .. "**/*.md",
+		"BufReadPre " .. obsidian_path .. "/**/*.md",
+		"BufNewFile " .. obsidian_path .. "/**/*.md",
 	},
 	dependencies = {
 		-- Required.
