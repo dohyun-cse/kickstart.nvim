@@ -33,14 +33,18 @@ vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover Document" })
 vim.keymap.set("n", "<leader>e", "<cmd>Neotree filesystem reveal right<CR>", { desc = "[E]xplorer" })
 vim.keymap.set("n", "<leader>z", "<cmd>ZenMode<CR>", { desc = "[Z]en mode" })
 
-require("which-key").register({
-  ["g"] = { name = "[G]it", b = { name = "[B]uffer" } },
-  ["c"] = { name = "[C]ode" },
-  ["s"] = { name = "[S]earch", s = { name = "[S]ymbols" } },
-  ["h"] = { name = "[H]arpoon" },
-  ["o"] = { name = "[O]bsidian" },
-}, { prefix = "<leader>" })
-require("which-key").register({ g = { name = "[G]it" } }, { mode = "v", prefix = "<leader>" })
+require("which-key").add({
+  { "<leader>g",  group = "[G]it" },
+  { "<leader>gb", group = "[B]uffer" },
+  { "<leader>c",  group = "[C]ode" },
+  { "<leader>s",  group = "[S]earch" },
+  { "<leader>ss", group = "[S]ymbols" },
+  { "<leader>h",  group = "[H]arpoon" },
+  { "<leader>o",  group = "[O]bsidian" },
+  { "<leader>f",  group = "[F]lash" },
+  { "<leader>n",  group = "[N]ew" },
+  { "<leader>g",  group = "[G]it",     mode = "v" },
+})
 
 -- keymap set
 local opt = { silent = true }
@@ -117,8 +121,9 @@ end, { desc = "[C]ommits" }, opt)
 vim.keymap.set("n", prefix .. "n", "<cmd>TodoTelescope<CR>", { desc = "[N]otes, Todo, etc" }, opt)
 vim.keymap.set("v", prefix .. "g", "y<ESC>:Telescope live_grep default_text=<c-r>0<CR>", opt)
 
-vim.keymap.set({ "n", "v" }, "<leader>fw", require("flash").jump, { desc = "[F]lash [W]ord" }, opt)
-vim.keymap.set({ "n", "v" }, "<leader>ff", require("flash").treesitter, { desc = "[F]lash [T]reesitter" }, opt)
+prefix = "<leader>f"
+vim.keymap.set({ "n", "v" }, prefix .. "w", require("flash").jump, { desc = "[F]lash [W]ord" }, opt)
+vim.keymap.set({ "n", "v" }, prefix .. "f", require("flash").treesitter, { desc = "[F]lash [T]reesitter" }, opt)
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "markdown",
@@ -187,8 +192,7 @@ vim.keymap.set("n", prefix .. "m", function()
 end, { desc = "[M]eeting Note" }, opt)
 
 vim.keymap.set("n", prefix .. "o", function()
-  local fname =
-      string.gsub(string.gsub(vim.fn.expand("%:p"), vault .. "/", ""), ".md", "")
+  local fname = string.gsub(string.gsub(vim.fn.expand("%:p"), vault .. "/", ""), ".md", "")
   vim.cmd('silent !open "obsidian://open?vault=my_vault&file=' .. fname .. '"')
 end, { desc = "[O]pen in Obsidian" }, opt)
 
@@ -202,15 +206,12 @@ end, { desc = "[G]rep notes" }, opt)
 vim.keymap.set("n", "<leader>nt", function()
   local pwd = vim.fn.getcwd()
   vim.cmd('silent !tmux split-window -c "' .. pwd .. '"')
-end, {desc = "[N]ew [T]erminal"}, opt
-)
+end, { desc = "[N]ew [T]erminal" }, opt)
 
 vim.keymap.set("n", "<leader>nf", function()
   local pwd = vim.fn.getcwd()
   vim.cmd('silent !open "' .. pwd .. '"')
-end, {desc = "[N]ew [F]inder"}, opt
-)
-
+end, { desc = "[N]ew [F]inder" }, opt)
 
 -- harpoon
 prefix = "<leader>h"
